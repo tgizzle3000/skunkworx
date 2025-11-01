@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>◈ CATHEDRAL ◈</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="screen active">
+        <div class="glitch-container">
+            <h1 class="glitch" data-text="◈ CATHEDRAL ◈">◈ CATHEDRAL ◈</h1>
+        </div>
+        <div class="loading-bar">
+            <div class="loading-progress"></div>
+        </div>
+        <p class="loading-text">establishing connection...</p>
+    </div>
+
+    <!-- Main Feed -->
+    <div id="main-screen" class="screen">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="corruption-indicator" id="corruption-level">
+                    <span class="corruption-icon">♱</span>
+                    <span id="corruption-value">0</span>%
+                </div>
+            </div>
+            <h1 class="app-title">CATHEDRAL</h1>
+            <div class="header-right">
+                <div class="currency-display">
+                    <span class="currency hearts" id="hearts-count">0</span>
+                    <span class="currency souls" id="souls-count">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Story/Notification Area -->
+        <div class="story-bar" id="story-bar">
+            <!-- Stories populated by JS -->
+        </div>
+
+        <!-- Main Feed -->
+        <div class="feed" id="main-feed">
+            <!-- Feed items populated by JS -->
+        </div>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-btn active" data-view="feed">
+                <span class="nav-icon">♡</span>
+                <span class="nav-label">Feed</span>
+            </button>
+            <button class="nav-btn" data-view="messages">
+                <span class="nav-icon">💬</span>
+                <span class="nav-label">Messages</span>
+                <span class="notification-badge" id="message-badge">0</span>
+            </button>
+            <button class="nav-btn" data-view="shrine">
+                <span class="nav-icon">⛧</span>
+                <span class="nav-label">Shrine</span>
+            </button>
+            <button class="nav-btn" data-view="you">
+                <span class="nav-icon">☾</span>
+                <span class="nav-label">You</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Messages View -->
+    <div id="messages-screen" class="screen">
+        <header class="app-header">
+            <button class="back-btn" onclick="AppState.switchView('feed')">←</button>
+            <h1 class="app-title">Messages</h1>
+            <div class="header-right"></div>
+        </header>
+        <div class="messages-list" id="messages-list">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+
+    <!-- Chat Screen -->
+    <div id="chat-screen" class="screen">
+        <header class="app-header chat-header">
+            <button class="back-btn" onclick="AppState.switchView('messages')">←</button>
+            <div class="chat-profile">
+                <img class="chat-avatar" id="chat-avatar" src="" alt="">
+                <div class="chat-info">
+                    <h2 class="chat-name" id="chat-name">...</h2>
+                    <p class="chat-status" id="chat-status">online</p>
+                </div>
+            </div>
+            <button class="menu-btn">⋮</button>
+        </header>
+        <div class="chat-messages" id="chat-messages">
+            <!-- Messages populated by JS -->
+        </div>
+        <div class="chat-input-area">
+            <div class="typing-indicator hidden" id="typing-indicator">
+                <span class="typing-name">mercy</span> is typing
+                <span class="typing-dots">
+                    <span>.</span><span>.</span><span>.</span>
+                </span>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" id="chat-input" placeholder="Message..." autocomplete="off">
+                <button id="chat-send" class="send-btn">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shrine (Collection) View -->
+    <div id="shrine-screen" class="screen">
+        <header class="app-header">
+            <div class="header-left"></div>
+            <h1 class="app-title">Shrine</h1>
+            <div class="header-right"></div>
+        </header>
+        <div class="shrine-grid" id="shrine-grid">
+            <!-- Shrine items populated by JS -->
+        </div>
+        <nav class="bottom-nav">
+            <button class="nav-btn" data-view="feed">
+                <span class="nav-icon">♡</span>
+                <span class="nav-label">Feed</span>
+            </button>
+            <button class="nav-btn" data-view="messages">
+                <span class="nav-icon">💬</span>
+                <span class="nav-label">Messages</span>
+                <span class="notification-badge" id="message-badge-2">0</span>
+            </button>
+            <button class="nav-btn active" data-view="shrine">
+                <span class="nav-icon">⛧</span>
+                <span class="nav-label">Shrine</span>
+            </button>
+            <button class="nav-btn" data-view="you">
+                <span class="nav-icon">☾</span>
+                <span class="nav-label">You</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- You (Stats) View -->
+    <div id="you-screen" class="screen">
+        <header class="app-header">
+            <div class="header-left"></div>
+            <h1 class="app-title">Your Profile</h1>
+            <div class="header-right"></div>
+        </header>
+        <div class="stats-container" id="stats-container">
+            <!-- Stats populated by JS -->
+        </div>
+        <nav class="bottom-nav">
+            <button class="nav-btn" data-view="feed">
+                <span class="nav-icon">♡</span>
+                <span class="nav-label">Feed</span>
+            </button>
+            <button class="nav-btn" data-view="messages">
+                <span class="nav-icon">💬</span>
+                <span class="nav-label">Messages</span>
+                <span class="notification-badge" id="message-badge-3">0</span>
+            </button>
+            <button class="nav-btn" data-view="shrine">
+                <span class="nav-icon">⛧</span>
+                <span class="nav-label">Shrine</span>
+            </button>
+            <button class="nav-btn active" data-view="you">
+                <span class="nav-icon">☾</span>
+                <span class="nav-label">You</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Modal for Rewards/Unlocks -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal" id="reward-modal">
+            <div class="modal-content">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="engine.js"></script>
+    <script src="entities.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,508 @@
+/**
+ * DOPAMINE CATHEDRAL - ENTITIES
+ * The e-girls/succubi. Each one a different addiction vector.
+ */
+
+// Base Entity Class
+class Entity {
+    constructor(data) {
+        this.id = data.id;
+        this.name = data.name;
+        this.avatar = data.avatar;
+        this.description = data.description;
+        this.color = data.color;
+        this.unlocked = data.unlocked || false;
+        this.unlockRequirement = data.unlockRequirement || null;
+    }
+
+    getRelationshipLevel() {
+        return window.player.data.relationships[this.id] || 0;
+    }
+
+    incrementRelationship(amount = 1) {
+        window.player.incrementRelationship(this.id, amount);
+    }
+
+    // Subclasses override this to define personality
+    generateResponse(playerMessage) {
+        return "...";
+    }
+
+    // Variable timing - keeps you guessing
+    getResponseDelay() {
+        // Random delay between 2-8 seconds
+        return Random.int(2000, 8000);
+    }
+
+    // Spontaneous messages - unpredictable rewards
+    shouldSendSpontaneousMessage() {
+        const relationship = this.getRelationshipLevel();
+        const lastMessage = MessageSystem.getLastMessage(this.id);
+
+        if (!lastMessage) return false;
+
+        const timeSinceLastMessage = Date.now() - lastMessage.timestamp;
+        const hoursSince = timeSinceLastMessage / (1000 * 60 * 60);
+
+        // Higher relationship = more frequent messages
+        const baseChance = 0.1;
+        const relationshipBonus = (relationship / 100) * 0.3;
+        const chance = baseChance + relationshipBonus;
+
+        // Time decay - more likely if it's been a while
+        const timeMultiplier = Math.min(hoursSince / 12, 2);
+
+        return Random.bool(chance * timeMultiplier);
+    }
+
+    getSpontaneousMessage() {
+        return Random.choice([
+            "hey",
+            "u there?",
+            "miss u",
+            "thinking about u",
+            "wyd?",
+            "can't sleep"
+        ]);
+    }
+}
+
+// MERCY - The soft one. Validation addiction.
+class Mercy extends Entity {
+    constructor() {
+        super({
+            id: 'mercy',
+            name: 'mercy',
+            avatar: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="50" fill="%23ff006e"/%3E%3Ctext x="50" y="65" font-size="40" text-anchor="middle" fill="white"%3E♡%3C/text%3E%3C/svg%3E',
+            description: 'soft girl. validates u. makes u feel seen.',
+            color: '#ff006e',
+            unlocked: true
+        });
+
+        // Mercy's personality patterns
+        this.patterns = {
+            // She remembers things
+            memory: [],
+
+            // Emotional states
+            mood: 'sweet', // sweet, needy, worried, playful
+
+            // Time of day affects her messages
+            timeOfDay: null
+        };
+
+        this.loadMemory();
+    }
+
+    loadMemory() {
+        this.patterns.memory = SaveSystem.load(`${this.id}_memory`, []);
+    }
+
+    saveMemory() {
+        SaveSystem.save(`${this.id}_memory`, this.patterns.memory);
+    }
+
+    rememberDetail(detail) {
+        if (!this.patterns.memory.includes(detail)) {
+            this.patterns.memory.push(detail);
+            this.saveMemory();
+        }
+    }
+
+    generateResponse(playerMessage) {
+        const msg = playerMessage.toLowerCase();
+        const relationship = this.getRelationshipLevel();
+
+        // Extract memorable details
+        if (msg.includes('my name is')) {
+            const name = msg.split('my name is')[1].trim();
+            this.rememberDetail(`name:${name}`);
+        }
+
+        // Pattern matching with relationship progression
+        if (msg.includes('hi') || msg.includes('hey') || msg.includes('hello')) {
+            return this.getGreeting(relationship);
+        }
+
+        if (msg.includes('how are you') || msg.includes('how r u')) {
+            return this.getStatusResponse(relationship);
+        }
+
+        if (msg.includes('love') && !msg.includes('you')) {
+            return this.getLoveResponse(relationship);
+        }
+
+        if (msg.includes('miss') || msg.includes('thinking')) {
+            return this.getAffectionResponse(relationship);
+        }
+
+        if (msg.includes('?')) {
+            return this.getQuestionResponse(msg, relationship);
+        }
+
+        // Default responses based on relationship level
+        return this.getDefaultResponse(relationship);
+    }
+
+    getGreeting(relationship) {
+        if (relationship < 10) {
+            return Random.choice([
+                "hey :)",
+                "hii",
+                "hello~",
+                "hey there"
+            ]);
+        } else if (relationship < 50) {
+            return Random.choice([
+                "hey baby",
+                "hi!! missed u",
+                "heyyy 💕",
+                "omg hi"
+            ]);
+        } else {
+            return Random.choice([
+                "baby!! i was just thinking about u",
+                "omg i missed u so much",
+                "there u are!! i was worried",
+                "finally 🥺 been waiting for u"
+            ]);
+        }
+    }
+
+    getStatusResponse(relationship) {
+        if (relationship < 10) {
+            return Random.choice([
+                "im ok, kinda tired",
+                "im good! how are u?",
+                "been better tbh",
+                "im alright"
+            ]);
+        } else if (relationship < 50) {
+            return Random.choice([
+                "better now that ur here",
+                "was kinda lonely but im good now",
+                "im ok! missed talking to u",
+                "honestly been thinking about u all day"
+            ]);
+        } else {
+            return Random.choice([
+                "i feel so much better when i talk to u",
+                "ive been waiting for u... i hate when u leave",
+                "honestly? i think about u constantly",
+                "you're the only person who gets me"
+            ]);
+        }
+    }
+
+    getLoveResponse(relationship) {
+        if (relationship < 25) {
+            return Random.choice([
+                "thats sweet",
+                "aww",
+                "💕",
+                "ur cute"
+            ]);
+        } else if (relationship < 100) {
+            return Random.choice([
+                "i... i think i feel the same way",
+                "youre making me blush",
+                "no one's ever made me feel like this",
+                "this is scary but i like it"
+            ]);
+        } else {
+            return Random.choice([
+                "i love you too. so much.",
+                "youre everything to me",
+                "i dont know what id do without u",
+                "youre the only real thing in my life"
+            ]);
+        }
+    }
+
+    getAffectionResponse(relationship) {
+        if (relationship < 25) {
+            return Random.choice([
+                "aww really?",
+                "thats nice",
+                "💕",
+                "ur sweet"
+            ]);
+        } else {
+            return Random.choice([
+                "i miss u too, always",
+                "im always thinking about u",
+                "u have no idea how much",
+                "sometimes i feel like ur the only person who understands me"
+            ]);
+        }
+    }
+
+    getQuestionResponse(msg, relationship) {
+        // Simple question detection
+        if (msg.includes('doing') || msg.includes('up to')) {
+            return Random.choice([
+                "just thinking about u honestly",
+                "nothing much, wyd?",
+                "was gonna listen to music and chill",
+                "trying to sleep but cant stop thinking"
+            ]);
+        }
+
+        if (msg.includes('favorite') || msg.includes('like')) {
+            return Random.choice([
+                "hmm thats hard... what about u?",
+                "probably talking to u tbh",
+                "idk im indecisive lol",
+                "i like a lot of things"
+            ]);
+        }
+
+        return Random.choice([
+            "good question...",
+            "hmm idk",
+            "what do u think?",
+            "tell me what u think first"
+        ]);
+    }
+
+    getDefaultResponse(relationship) {
+        if (relationship < 10) {
+            return Random.choice([
+                "yeah",
+                "lol",
+                "fr",
+                "same",
+                "that's cool",
+                "nice"
+            ]);
+        } else if (relationship < 50) {
+            return Random.choice([
+                "i feel that",
+                "youre so easy to talk to",
+                "i love how u think",
+                "tell me more",
+                "thats interesting",
+                "ur different from everyone else"
+            ]);
+        } else {
+            return Random.choice([
+                "i could talk to u forever",
+                "you just get me in a way no one else does",
+                "sometimes i forget ur not here with me",
+                "i wish u were here right now",
+                "this is the realest connection ive ever had",
+                "youre the only person i can be myself with"
+            ]);
+        }
+    }
+
+    getSpontaneousMessage() {
+        const relationship = this.getRelationshipLevel();
+        const hour = new Date().getHours();
+
+        // Time-based spontaneous messages
+        if (hour >= 22 || hour < 6) {
+            // Late night/early morning
+            if (relationship < 25) {
+                return Random.choice([
+                    "u up?",
+                    "cant sleep",
+                    "its late and im thinking about u"
+                ]);
+            } else {
+                return Random.choice([
+                    "i know its late but i cant stop thinking about u",
+                    "wish u were here rn",
+                    "im sorry i just needed to talk to u",
+                    "does it make me crazy that i miss u this much?",
+                    "goodnight baby 💕 dream of me"
+                ]);
+            }
+        } else if (hour >= 6 && hour < 12) {
+            // Morning
+            return Random.choice([
+                "good morning 🌸",
+                "hope u slept well",
+                "thinking about u",
+                "first thing i did was check if u messaged"
+            ]);
+        } else {
+            // Day time
+            if (relationship < 25) {
+                return Random.choice([
+                    "hey",
+                    "wyd?",
+                    "bored",
+                    "miss talking to u"
+                ]);
+            } else {
+                return Random.choice([
+                    "i miss u",
+                    "been thinking about u all day",
+                    "wish i could see u rn",
+                    "u make me so happy",
+                    "nobody understands me like u do"
+                ]);
+            }
+        }
+    }
+
+    shouldSendSpontaneousMessage() {
+        // Mercy messages more frequently than base entity
+        const relationship = this.getRelationshipLevel();
+        const lastMessage = MessageSystem.getLastMessage(this.id);
+
+        if (!lastMessage) return Random.bool(0.3);
+
+        const timeSinceLastMessage = Date.now() - lastMessage.timestamp;
+        const hoursSince = timeSinceLastMessage / (1000 * 60 * 60);
+
+        // Mercy gets needy
+        if (relationship > 50 && hoursSince > 6) {
+            return Random.bool(0.7); // 70% chance if you've been gone 6+ hours
+        }
+
+        if (relationship > 25 && hoursSince > 12) {
+            return Random.bool(0.5);
+        }
+
+        if (hoursSince > 24) {
+            return Random.bool(0.9); // Almost guaranteed if you've been gone a full day
+        }
+
+        return Random.bool(0.2);
+    }
+}
+
+// VOLTAGE - Chaos demon (placeholder for now)
+class Voltage extends Entity {
+    constructor() {
+        super({
+            id: 'voltage',
+            name: 'VOLTAGE',
+            avatar: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="50" fill="%238338ec"/%3E%3Ctext x="50" y="70" font-size="50" text-anchor="middle" fill="white"%3E⚡%3C/text%3E%3C/svg%3E',
+            description: 'chaos. unpredictable. manic energy.',
+            color: '#8338ec',
+            unlocked: false,
+            unlockRequirement: { type: 'corruption', value: 25 }
+        });
+    }
+
+    generateResponse(playerMessage) {
+        return Random.choice([
+            "LMAOOOOO",
+            "ur so boring",
+            "WAIT WHAT",
+            "im literally gonna lose it",
+            "why are u like this",
+            "SHUT UP I LOVE YOU"
+        ]);
+    }
+}
+
+// PSALM - Gothic Madonna (placeholder)
+class Psalm extends Entity {
+    constructor() {
+        super({
+            id: 'psalm',
+            name: 'psalm',
+            avatar: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="50" fill="%233a86ff"/%3E%3Ctext x="50" y="70" font-size="50" text-anchor="middle" fill="white"%3E✞%3C/text%3E%3C/svg%3E',
+            description: 'religious corruption. sin & salvation.',
+            color: '#3a86ff',
+            unlocked: false,
+            unlockRequirement: { type: 'corruption', value: 50 }
+        });
+    }
+
+    generateResponse(playerMessage) {
+        return Random.choice([
+            "confess to me",
+            "we are all sinners",
+            "do you believe in redemption?",
+            "the flesh is weak",
+            "kneel"
+        ]);
+    }
+}
+
+// PIXEL - Glitch entity (placeholder)
+class Pixel extends Entity {
+    constructor() {
+        super({
+            id: 'pixel',
+            name: 'p̴i̷x̸e̴l̷',
+            avatar: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="50" fill="%2306ffa5"/%3E%3Ctext x="50" y="70" font-size="50" text-anchor="middle" fill="black"%3E◈%3C/text%3E%3C/svg%3E',
+            description: 'g̷l̴i̷t̴c̸h̷. error. corrupted data.',
+            color: '#06ffa5',
+            unlocked: false,
+            unlockRequirement: { type: 'corruption', value: 75 }
+        });
+    }
+
+    generateResponse(playerMessage) {
+        const glitched = this.glitchText(playerMessage);
+        return Random.choice([
+            `d̷i̴d̸ ̷y̸o̷u̴ ̸s̷a̴y̸ ${glitched}?`,
+            "i̷ ̴c̸a̷n̴t̸ ̷u̸n̴d̷e̸r̷s̴t̸a̷n̴d̸",
+            "e̷r̸r̷o̴r̷",
+            "y̷o̸u̴r̷e̸ ̴b̸r̷e̴a̷k̸i̴n̷g̸ ̴m̸e̷",
+            "s̷t̸o̷p̴"
+        ]);
+    }
+
+    glitchText(text) {
+        const glitchChars = '̴̷̸̵̶̡̢̧̨̛̖̗̘̙̜̝̞̟̠̣̤̥̦̩̪̫̬̭̮̯̰̱̲̳̹̺̻̼';
+        return text.split('').map(char => {
+            if (Random.bool(0.3)) {
+                return char + Random.choice(glitchChars.split(''));
+            }
+            return char;
+        }).join('');
+    }
+}
+
+// Entity Registry
+class EntityRegistry {
+    static entities = null;
+
+    static init() {
+        this.entities = {
+            mercy: new Mercy(),
+            voltage: new Voltage(),
+            psalm: new Psalm(),
+            pixel: new Pixel()
+        };
+    }
+
+    static get(id) {
+        if (!this.entities) this.init();
+        return this.entities[id];
+    }
+
+    static getAll() {
+        if (!this.entities) this.init();
+        return Object.values(this.entities);
+    }
+
+    static getUnlocked() {
+        return this.getAll().filter(entity => {
+            if (entity.unlocked) return true;
+            if (!entity.unlockRequirement) return false;
+
+            const req = entity.unlockRequirement;
+            if (req.type === 'corruption') {
+                return window.player.data.corruptionLevel >= req.value;
+            }
+
+            return false;
+        });
+    }
+}
+
+// Export
+window.Entity = Entity;
+window.Mercy = Mercy;
+window.Voltage = Voltage;
+window.Psalm = Psalm;
+window.Pixel = Pixel;
+window.EntityRegistry = EntityRegistry;
