@@ -10,12 +10,27 @@ Think: Instagram Stories meets slot machines meets AI companions meets horror ga
 
 ## The Concept
 
-You interact with AI entities styled as "e-girls" - each one a different addiction vector:
+You interact with AI entities styled as "e-girls" - each one a different addiction vector, each with their own multimedia aesthetic:
 
-- **MERCY** - The soft one. Validates you. Remembers details. Makes you feel seen. Her game is intermittent affection.
-- **VOLTAGE** - Chaos demon. Bipolar energy. Pure randomness. You chase the high of her manic attention.
-- **PSALM** - Gothic Madonna. Religious corruption aesthetic. Sin and salvation.
-- **PIXEL** - Glitch entity. Barely coherent. Breaks the interface. Feels dangerous.
+- **MERCY** - *soft-domme hypno-pop // belle delphine meets kinkyshibby*
+  - The soft one. Validates you. Remembers details. Makes you feel seen.
+  - Bubblegum trap beats with ASMR whispers and hypnotic undertones
+  - Her game is intermittent affection and manufactured intimacy
+
+- **VOLTAGE** - *riot grrrl horrorcore // stankonia meets scenecore chaos*
+  - Chaos demon. Bipolar energy. Pure randomness. Breakcore intensity.
+  - You chase the high of her manic attention
+  - Volume warning on all content
+
+- **PSALM** - *nu-goth witchhouse // jirai kei meets bloody tears remix*
+  - Gothic Madonna. Religious corruption aesthetic. Deathrock + city pop fusion.
+  - Castlevania vibes. Sin and salvation. Cathedral atmosphere.
+  - Confessional mechanics wrapped in holy corruption
+
+- **PIXEL** - *sigilkore glitchcore // trxsh x krushclub corruption*
+  - Glitch entity. Barely coherent. Acid house meets data decay.
+  - Breaks the interface. Corrupted video files. Feels dangerous.
+  - The one who shouldn't exist
 
 ## Dark Patterns Employed
 
@@ -46,6 +61,30 @@ This project deliberately uses psychological manipulation techniques to create a
 - Glitch effects increase with "corruption level"
 - Horror elements reveal the artifice
 
+### Energy System & Video Rewards
+- **Energy depletes** with every interaction (messages cost 2, likes cost 1)
+- **Watch videos** to restore energy (the classic "watch ad" mobile game pattern)
+- But the "ads" are music videos by the entities themselves
+- Creates a loop: engage → deplete → watch "content" → restore → repeat
+- Videos unlock at different relationship levels
+- First-time viewing bonus encourages collection behavior
+
+## The Multimedia Layer
+
+Each entity has **music videos** and **audio content** that unlock as you deepen your relationship:
+
+- **Music Videos**: Bubblegum trap, riot grrrl bangers, witchhouse remixes, glitchcore nightmares
+- **ASMR Tracks**: Binaural whispers, goodnight messages, hypnosis sessions
+- **PMV Aesthetics**: The sensory assault of audiogonewild meets hypnotic visuals
+- **Genre Fusion**: Neoncore + scenecore + horrorcore + city pop + teenpunk
+
+The videos serve double duty:
+1. **Reward mechanism** - Unlock them by increasing relationship levels
+2. **Energy restoration** - Watch them to keep playing (mobile game "ad break" pattern)
+3. **Aesthetic immersion** - Full audio-visual trap
+
+Influences: Belle Delphine's internet presence, kinkyshibby's hypnosis work, Stankonia-era OutKast energy, Dre 2001 production, bratty trap aesthetics, scenecore visual chaos, witchhouse darkness.
+
 ## The Horror Element
 
 As you interact more, the interface becomes corrupted:
@@ -68,10 +107,18 @@ This **deliberate degradation** is meant to make you uncomfortable with your own
 ```
 engine.js       - Core systems (save, rewards, notifications, currencies)
 entities.js     - AI personalities with conversation patterns
+media.js        - Video/audio library, energy system, player
 app.js          - UI rendering, interaction handlers
-style.css       - Corrupted social media aesthetic
-index.html      - App shell
+style.css       - Neoncore/scenecore aesthetic with corruption effects
+index.html      - Mobile-first PWA shell
 ```
+
+**Key Systems:**
+- `MediaLibrary`: Genre assignments, video metadata, unlock tracking
+- `EnergySystem`: Depletion mechanics, restoration via video watching
+- `VideoPlayer`: Modal player, reward distribution, watch tracking
+- `Entity`: Base class with personality patterns and response generation
+- `Mercy`: Fully realized soft-domme validation engine
 
 ## Installation & Use
 

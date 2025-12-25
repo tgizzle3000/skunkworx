@@ -141,6 +141,12 @@ class FeedRenderer {
                     btn.textContent = '♡';
                     SaveSystem.save(`liked_${postId}`, false);
                 } else {
+                    // Check energy
+                    if (!EnergySystem.spend(EnergySystem.COSTS.like)) {
+                        EnergySystem.showLowEnergyModal();
+                        return;
+                    }
+
                     btn.classList.add('liked');
                     btn.textContent = '❤';
                     SaveSystem.save(`liked_${postId}`, true);
@@ -148,6 +154,9 @@ class FeedRenderer {
                     // Reward
                     window.player.addCurrency('hearts', 1);
                     window.player.recordInteraction('like');
+
+                    // Update energy UI
+                    EnergySystem.updateUI();
 
                     // Haptic feedback
                     if (navigator.vibrate) {
@@ -253,6 +262,12 @@ class ChatRenderer {
             const text = input.value.trim();
             if (!text) return;
 
+            // Check energy
+            if (!EnergySystem.spend(EnergySystem.COSTS.message)) {
+                EnergySystem.showLowEnergyModal();
+                return;
+            }
+
             // Add player message
             MessageSystem.addMessage(this.currentEntity.id, text, true);
             window.player.recordMessage(this.currentEntity.id);
@@ -262,6 +277,9 @@ class ChatRenderer {
 
             // Render
             this.renderMessages();
+
+            // Update energy UI
+            EnergySystem.updateUI();
 
             // Show typing indicator
             this.showTyping();
@@ -320,15 +338,28 @@ class ShrineRenderer {
         container.innerHTML = entities.map(entity => {
             const unlocked = EntityRegistry.getUnlocked().includes(entity);
             const relationship = entity.getRelationshipLevel();
+            const media = MediaLibrary.getEntityMedia(entity.id);
+            const unlockedVideos = unlocked ? MediaLibrary.getUnlockedVideos(entity.id) : [];
 
             return `
-                <div class="shrine-card ${unlocked ? '' : 'locked'}">
+                <div class="shrine-card ${unlocked ? '' : 'locked'}"
+                     ${unlocked ? `onclick="ShrineRenderer.showEntityDetail('${entity.id}')"` : ''}>
                     <img src="${entity.avatar}" alt="${entity.name}" class="shrine-avatar">
                     <div class="shrine-name">${unlocked ? entity.name : '???'}</div>
                     <div class="shrine-stats">
                         ${unlocked ? `
                             <div class="shrine-level">Level ${relationship}</div>
-                            <div>${entity.description}</div>
+                            <div style="font-size: 0.7rem; margin: 0.25rem 0;">${entity.description}</div>
+                            ${media ? `
+                                <div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid var(--border-color);">
+                                    <div style="font-size: 0.7rem; color: var(--text-tertiary);">
+                                        ${media.genre}
+                                    </div>
+                                    <div style="font-size: 0.75rem; color: var(--accent-purple); margin-top: 0.25rem;">
+                                        ${unlockedVideos.length} video${unlockedVideos.length !== 1 ? 's' : ''} unlocked
+                                    </div>
+                                </div>
+                            ` : ''}
                         ` : `
                             <div>Locked</div>
                             <div style="font-size: 0.7rem;">
@@ -341,6 +372,88 @@ class ShrineRenderer {
                 </div>
             `;
         }).join('');
+    }
+
+    static showEntityDetail(entityId) {
+        const entity = EntityRegistry.get(entityId);
+        const media = MediaLibrary.getEntityMedia(entityId);
+        const videos = MediaLibrary.getUnlockedVideos(entityId);
+        const audio = MediaLibrary.getUnlockedAudio(entityId);
+        const relationship = entity.getRelationshipLevel();
+
+        const overlay = document.getElementById('modal-overlay');
+        const modal = document.getElementById('reward-modal');
+        const content = modal.querySelector('.modal-content');
+
+        content.innerHTML = `
+            <div style="padding: 1rem; max-width: 500px;">
+                <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem;">
+                    <img src="${entity.avatar}" style="width: 60px; height: 60px; border-radius: 50%;">
+                    <div>
+                        <h2 style="font-size: 1.5rem; color: ${entity.color};">${entity.name}</h2>
+                        <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                            ${media ? media.aesthetic : entity.description}
+                        </div>
+                        <div style="font-size: 0.9rem; color: var(--accent-purple); margin-top: 0.25rem;">
+                            Level ${relationship}
+                        </div>
+                    </div>
+                </div>
+
+                ${videos.length > 0 ? `
+                    <div style="margin-bottom: 1.5rem;">
+                        <h3 style="font-size: 1.1rem; margin-bottom: 0.75rem; color: ${entity.color};">
+                            Music Videos
+                        </h3>
+                        ${videos.map(video => {
+                            const watchCount = MediaLibrary.getWatchCount(video.id);
+                            return `
+                                <div onclick="VideoPlayer.play('${entityId}', '${video.id}')"
+                                     style="background: var(--bg-tertiary); padding: 0.75rem; border-radius: 0.5rem;
+                                            margin-bottom: 0.5rem; cursor: pointer; transition: all 0.2s ease;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <div style="font-weight: 600;">${video.title}</div>
+                                            <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                                                ${Math.floor(video.duration / 60)}:${String(video.duration % 60).padStart(2, '0')}
+                                                ${watchCount > 0 ? ` • watched ${watchCount}x` : ' • NEW'}
+                                            </div>
+                                        </div>
+                                        <div style="font-size: 1.5rem;">▶</div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                ` : ''}
+
+                ${audio && audio.length > 0 ? `
+                    <div style="margin-bottom: 1.5rem;">
+                        <h3 style="font-size: 1.1rem; margin-bottom: 0.75rem; color: ${entity.color};">
+                            Audio Content
+                        </h3>
+                        ${audio.map(track => `
+                            <div style="background: var(--bg-tertiary); padding: 0.75rem; border-radius: 0.5rem;
+                                        margin-bottom: 0.5rem; opacity: 0.6;">
+                                <div style="font-weight: 600;">${track.title}</div>
+                                <div style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                                    ${track.type.toUpperCase()} • Coming Soon
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                ` : ''}
+
+                <button onclick="RewardSystem.closeModal()"
+                        style="width: 100%; padding: 0.75rem; background: ${entity.color};
+                               border: none; border-radius: 2rem; color: white; font-weight: 600;
+                               cursor: pointer; font-size: 1rem;">
+                    Close
+                </button>
+            </div>
+        `;
+
+        overlay.classList.add('active');
     }
 }
 
@@ -458,6 +571,12 @@ class App {
 
         // Update currency display
         this.updateCurrencyDisplay();
+
+        // Initialize and update energy display
+        EnergySystem.updateUI();
+        setInterval(() => {
+            EnergySystem.updateUI();
+        }, 1000 * 10); // Every 10 seconds
 
         // Request notification permission
         NotificationSystem.requestPermission();
