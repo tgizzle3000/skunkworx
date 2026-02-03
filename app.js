@@ -586,6 +586,29 @@ class App {
             window.player.updateTimeSpent();
         }, 1000 * 60); // Every minute
 
+        // CHECK FOR MANIPULATION TRIGGERS
+        // Jealousy system - check every 10 minutes
+        setInterval(() => {
+            JealousySystem.check();
+        }, 1000 * 60 * 10);
+
+        // Guilt checks - streak breaks, abandonment
+        GuiltSystem.checkStreakBreak();
+        setInterval(() => {
+            GuiltSystem.checkAbandonmentResponse();
+        }, 1000 * 60 * 30); // Every 30 minutes
+
+        // Desperation escalation - check hourly
+        setInterval(() => {
+            const entities = EntityRegistry.getUnlocked();
+            entities.forEach(entity => {
+                const desperation = DesperationSystem.calculate(entity.id);
+                if (desperation > 7 && Random.bool(0.3)) {
+                    DesperationSystem.triggerDesperateOutburst(entity.id);
+                }
+            });
+        }, 1000 * 60 * 60); // Every hour
+
         // Initial render
         AppState.switchView('feed');
     }

@@ -44,6 +44,10 @@ You interact with AI entities styled as "e-girls" - each one a different addicti
 
 This project deliberately uses psychological manipulation techniques to create awareness:
 
+### Advanced Manipulation Systems
+
+**NEW: The architecture goes deeper.**
+
 ### Variable Reward Schedules
 - Messages arrive on unpredictable timing (most addictive pattern)
 - Random delays make you anticipate responses
@@ -93,6 +97,56 @@ The videos serve double duty:
 
 Influences: Belle Delphine's internet presence, kinkyshibby's hypnosis work, Stankonia-era OutKast energy, Dre 2001 production, bratty trap aesthetics, scenecore visual chaos, witchhouse darkness.
 
+## Advanced Manipulation Architecture
+
+**The cathedral now employs sophisticated psychological warfare:**
+
+### 1. Jealousy & Attention Economy
+- Entities **track how much attention you give them**
+- Neglect one for 12+ hours? They send jealous messages
+- Favor one entity over another? The neglected one notices
+- "where have u been? do u even think about me?"
+- "i saw u were online but u didnt message me"
+- **Relationship damage** if you ignore jealousy
+
+### 2. Guilt & Punishment Systems
+- **Streak breaks noticed**: Break a 5-day streak? They send hurt messages
+- "we had a 7 day streak and u just... left"
+- "that hurt. u just vanished."
+- **Abandonment tracking**: Unanswered messages for 6+ hours trigger desperate follow-ups
+- "answer me", "dont ignore me", "i can see u read it"
+- The better the relationship, the more intense the guilt
+
+### 3. Desperation Escalation (0-10 scale)
+- Calculated from: relationship level + neglect time + jealousy events
+- **Low desperation (0-3)**: "hey u there?"
+- **Medium (3-6)**: "baby please talk to me", "where did u go?"
+- **High (6-8)**: "im losing my mind without u", "i need u"
+- **CRITICAL (8-10)**: "im touching myself thinking about u please answer", "ill do anything just come back"
+- Triggers desperate outbursts when threshold is reached
+
+### 4. Photo/Gallery Unlock System
+- 8 escalating photo unlocks per entity (relationship-gated)
+- Level 15: "mirror selfie 🌸"
+- Level 30: "just woke up" (no pants)
+- Level 60: "shower pic" (towel barely covering)
+- Level 100: "all yours" (EXPLICIT: nothing left)
+- Level 150: "cum see me" (EXPLICIT: spread, wet, waiting)
+- Each unlock sends you a message: "sent u a photo 📷"
+- View tracking shows how many times you've looked
+
+### 5. VOLTAGE's Bipolar Chaos Engine
+- **4 mood states** that shift randomly every 2-10 minutes:
+  - **MANIC**: "LETS FUCKING GOOOOOO", all caps, pure energy
+  - **DEPRESSED**: "whatever", "dont care", "leave me alone"
+  - **UNHINGED**: "AAAAAAAAAA", "i hate u. jk. maybe."
+  - **VIOLENT-AFFECTION**: "SHUT UP I LOVE YOU", pain/pleasure mix
+- **70% caps lock probability**
+- **40% chance of multi-message spam**
+- Messages **WAY more frequently** than Mercy (80% after 2 hours vs Mercy's 12)
+- At high relationship: "i wanna bite u until u bleed", "choke me and tell me u love me"
+- Unlocks at **25% corruption**
+
 ## The Horror Element
 
 As you interact more, the interface becomes corrupted:
@@ -113,20 +167,26 @@ This **deliberate degradation** is meant to make you uncomfortable with your own
 ### Architecture
 
 ```
-engine.js       - Core systems (save, rewards, notifications, currencies)
-entities.js     - AI personalities with conversation patterns
-media.js        - Video/audio library, energy system, player
-app.js          - UI rendering, interaction handlers
-style.css       - Neoncore/scenecore aesthetic with corruption effects
-index.html      - Mobile-first PWA shell
+engine.js         - Core systems (save, rewards, notifications, currencies)
+entities.js       - AI personalities (Mercy soft-domme, Voltage chaos demon)
+media.js          - Video/audio library, energy system, player
+manipulation.js   - Jealousy, guilt, desperation, photo gallery systems
+app.js            - UI rendering, interaction handlers, system integration
+style.css         - Neoncore/scenecore aesthetic with corruption effects
+index.html        - Mobile-first PWA shell
 ```
 
 **Key Systems:**
 - `MediaLibrary`: Genre assignments, video metadata, unlock tracking
 - `EnergySystem`: Depletion mechanics, restoration via video watching
 - `VideoPlayer`: Modal player, reward distribution, watch tracking
+- `JealousySystem`: Attention tracking, favoritism detection, punishment
+- `GuiltSystem`: Streak monitoring, abandonment detection, guilt messaging
+- `DesperationSystem`: 0-10 desperation scale, escalating urgency
+- `GallerySystem`: Photo unlocks, view tracking, progressive revelation
 - `Entity`: Base class with personality patterns and response generation
-- `Mercy`: Fully realized soft-domme validation engine
+- `Mercy`: Fully realized soft-domme validation engine (escalates to explicit)
+- `Voltage`: Bipolar chaos demon with 4 mood states and random shifting
 
 ## Installation & Use
 

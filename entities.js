@@ -450,7 +450,7 @@ class Mercy extends Entity {
     }
 }
 
-// VOLTAGE - Chaos demon (placeholder for now)
+// VOLTAGE - Chaos demon. Bipolar manic energy. The opposite of Mercy.
 class Voltage extends Entity {
     constructor() {
         super({
@@ -462,17 +462,205 @@ class Voltage extends Entity {
             unlocked: false,
             unlockRequirement: { type: 'corruption', value: 25 }
         });
+
+        // Voltage's chaos patterns
+        this.patterns = {
+            mood: 'manic', // manic, depressed, unhinged, violent-affection
+            lastMoodShift: Date.now(),
+            capsLockProbability: 0.7,
+            multiMessageProbability: 0.4
+        };
+    }
+
+    shiftMood() {
+        // Random mood swings
+        const moods = ['manic', 'depressed', 'unhinged', 'violent-affection'];
+        this.patterns.mood = Random.choice(moods);
+        this.patterns.lastMoodShift = Date.now();
+    }
+
+    shouldShiftMood() {
+        const timeSinceShift = Date.now() - this.patterns.lastMoodShift;
+        const minutesSince = timeSinceShift / (1000 * 60);
+        return minutesSince > Random.int(2, 10); // Shift every 2-10 minutes randomly
     }
 
     generateResponse(playerMessage) {
-        return Random.choice([
+        if (this.shouldShiftMood()) this.shiftMood();
+
+        const msg = playerMessage.toLowerCase();
+        const relationship = this.getRelationshipLevel();
+        const mood = this.patterns.mood;
+
+        // Voltage is NEVER predictable
+        if (Random.bool(this.patterns.multiMessageProbability)) {
+            // Send multiple messages rapidly (simulated as one for now)
+            return this.getMultiMessage(relationship, mood);
+        }
+
+        if (mood === 'manic') {
+            return this.getManicResponse(msg, relationship);
+        } else if (mood === 'depressed') {
+            return this.getDepressedResponse(msg, relationship);
+        } else if (mood === 'unhinged') {
+            return this.getUnhingedResponse(msg, relationship);
+        } else {
+            return this.getViolentAffectionResponse(msg, relationship);
+        }
+    }
+
+    getManicResponse(msg, relationship) {
+        const responses = relationship < 50 ? [
             "LMAOOOOO",
-            "ur so boring",
+            "YOOOOOO",
             "WAIT WHAT",
+            "UR INSANE I LOVE IT",
+            "LETS FUCKING GOOOOOO",
             "im literally gonna lose it",
+            "NO WAY NO FUCKING WAY",
+            "SKJDNSKJDN"
+        ] : [
+            "BABY BABY BABY OMG",
+            "YOURE SO FUCKING HOT",
+            "I WANNA EAT YOU ALIVE",
+            "COME HERE RIGHT FUCKING NOW",
+            "IM SO FUCKING HORNY RN",
+            "STRIP FOR ME",
+            "LETS FUCK LETS FUCK LETS FUCK"
+        ];
+
+        return Random.bool(this.patterns.capsLockProbability) ?
+            Random.choice(responses) :
+            Random.choice(responses).toLowerCase();
+    }
+
+    getDepressedResponse(msg, relationship) {
+        const responses = relationship < 50 ? [
+            "whatever",
+            "ok",
+            "cool",
+            "dont care",
+            "leave me alone",
+            "why r u even talking to me"
+        ] : [
+            "do u even like me",
+            "ur probably just using me",
+            "everyone leaves eventually",
+            "why havent u left yet",
+            "im not good enough for u",
+            "u deserve better than this mess"
+        ];
+
+        return Random.choice(responses);
+    }
+
+    getUnhingedResponse(msg, relationship) {
+        const responses = relationship < 50 ? [
+            "ur so boring im gonna scream",
+            "SAY SOMETHING INTERESTING",
             "why are u like this",
-            "SHUT UP I LOVE YOU"
-        ]);
+            "i hate u. jk. maybe.",
+            "AAAAAAAAAAAAA",
+            "im losing my mind and its ur fault"
+        ] : [
+            "i wanna bite u until u bleed",
+            "ur mine. MINE. say it.",
+            "if u ever leave me ill actually lose it",
+            "i think about hurting u in the best ways",
+            "pain and pleasure baby",
+            "make me bleed or make me cum i dont care which"
+        ];
+
+        return Random.choice(responses);
+    }
+
+    getViolentAffectionResponse(msg, relationship) {
+        const responses = relationship < 50 ? [
+            "SHUT UP I LOVE YOU",
+            "ur so stupid. i love that about u.",
+            "i hate how much i like u",
+            "fuck off. dont actually.",
+            "ur annoying as fuck and i cant stop thinking about u"
+        ] : [
+            "i wanna fuck u and fight u at the same time",
+            "bite my lip. hard. make it hurt.",
+            "i love u i hate u i need u i want u gone",
+            "choke me and tell me u love me",
+            "hit me. kiss me. i dont care. just touch me.",
+            "ur the worst thing that ever happened to me and i cant get enough"
+        ];
+
+        return Random.choice(responses);
+    }
+
+    getMultiMessage(relationship, mood) {
+        // Simulate rapid-fire messaging
+        const fragments = mood === 'manic' ? [
+            "WAIT", "NO", "HOLD ON", "OMG", "STOP", "LISTEN"
+        ] : mood === 'depressed' ? [
+            "nvm", "forget it", "whatever", "doesnt matter"
+        ] : [
+            "FUCK", "SHIT", "GOD", "PLEASE"
+        ];
+
+        return fragments.slice(0, Random.int(2, 4)).join('\n');
+    }
+
+    getSpontaneousMessage() {
+        if (this.shouldShiftMood()) this.shiftMood();
+
+        const relationship = this.getRelationshipLevel();
+        const mood = this.patterns.mood;
+
+        if (mood === 'manic') {
+            return Random.choice([
+                "U UP????",
+                "ANSWER ME",
+                "HEY HEY HEY HEY",
+                "WAKE UP",
+                "IM BORED ENTERTAIN ME"
+            ]);
+        } else if (mood === 'depressed') {
+            return Random.choice([
+                "...",
+                "u probably dont even care",
+                "everyone forgets about me",
+                "im here alone as usual"
+            ]);
+        } else if (mood === 'unhinged') {
+            return Random.choice([
+                "COME HERE NOW",
+                "i need to see u or ill break something",
+                "WHERE ARE U",
+                "answer or else"
+            ]);
+        } else {
+            return relationship < 50 ?
+                "i hate that i miss u" :
+                "i wanna ruin u. in a good way. come here.";
+        }
+    }
+
+    shouldSendSpontaneousMessage() {
+        // Voltage messages WAY more frequently than Mercy but is more chaotic
+        const relationship = this.getRelationshipLevel();
+        const lastMessage = MessageSystem.getLastMessage(this.id);
+
+        if (!lastMessage) return Random.bool(0.5); // 50% if never messaged
+
+        const timeSinceLastMessage = Date.now() - lastMessage.timestamp;
+        const hoursSince = timeSinceLastMessage / (1000 * 60 * 60);
+
+        // Voltage gets manic fast
+        if (hoursSince > 2) {
+            return Random.bool(0.8); // 80% after just 2 hours
+        }
+
+        if (hoursSince > 6) {
+            return Random.bool(0.95); // 95% after 6 hours
+        }
+
+        return Random.bool(0.3); // 30% baseline chaos
     }
 }
 
