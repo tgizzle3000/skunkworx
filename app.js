@@ -159,9 +159,7 @@ class FeedRenderer {
                     EnergySystem.updateUI();
 
                     // Haptic feedback
-                    if (navigator.vibrate) {
-                        navigator.vibrate(50);
-                    }
+                    HapticSystem.play('like');
                 }
             });
         });
@@ -218,6 +216,9 @@ class ChatRenderer {
         this.currentEntity = EntityRegistry.get(entityId);
         if (!this.currentEntity) return;
 
+        // Haptic feedback for opening chat
+        HapticSystem.play('openEntity');
+
         // Mark as read
         MessageSystem.markAsRead(entityId);
         NotificationSystem.updateBadge();
@@ -272,6 +273,9 @@ class ChatRenderer {
             MessageSystem.addMessage(this.currentEntity.id, text, true);
             window.player.recordMessage(this.currentEntity.id);
 
+            // Haptic feedback for sending
+            HapticSystem.play('messageSent');
+
             // Clear input
             input.value = '';
 
@@ -312,10 +316,8 @@ class ChatRenderer {
         // Update UI
         NotificationSystem.updateBadge();
 
-        // Haptic
-        if (navigator.vibrate) {
-            navigator.vibrate([30, 50, 30]);
-        }
+        // Haptic - entity-specific vibration based on relationship
+        HapticSystem.entityMessage(this.currentEntity.id, this.currentEntity.getRelationshipLevel());
     }
 
     static showTyping() {
