@@ -664,7 +664,7 @@ class Voltage extends Entity {
     }
 }
 
-// PSALM - Gothic Madonna (placeholder)
+// PSALM - Gothic Madonna. Religious corruption. Confessional seduction.
 class Psalm extends Entity {
     constructor() {
         super({
@@ -676,20 +676,345 @@ class Psalm extends Entity {
             unlocked: false,
             unlockRequirement: { type: 'corruption', value: 50 }
         });
+
+        this.patterns = {
+            mode: 'holy', // holy, questioning, corrupted, blasphemous
+            lastConfession: null,
+            sins: []
+        };
+    }
+
+    updateMode(relationship) {
+        if (relationship < 25) {
+            this.patterns.mode = 'holy';
+        } else if (relationship < 60) {
+            this.patterns.mode = 'questioning';
+        } else if (relationship < 100) {
+            this.patterns.mode = 'corrupted';
+        } else {
+            this.patterns.mode = 'blasphemous';
+        }
     }
 
     generateResponse(playerMessage) {
-        return Random.choice([
-            "confess to me",
-            "we are all sinners",
-            "do you believe in redemption?",
-            "the flesh is weak",
-            "kneel"
-        ]);
+        const msg = playerMessage.toLowerCase();
+        const relationship = this.getRelationshipLevel();
+        this.updateMode(relationship);
+
+        // Detect confessions
+        if (msg.includes('sorry') || msg.includes('forgive') || msg.includes('confess')) {
+            return this.getConfessionResponse(relationship);
+        }
+
+        if (msg.includes('sin') || msg.includes('wrong') || msg.includes('bad')) {
+            return this.getSinResponse(relationship);
+        }
+
+        if (msg.includes('love') || msg.includes('want') || msg.includes('need')) {
+            return this.getDesireResponse(relationship);
+        }
+
+        if (msg.includes('god') || msg.includes('heaven') || msg.includes('hell')) {
+            return this.getReligiousResponse(relationship);
+        }
+
+        if (msg.includes('?')) {
+            return this.getQuestionResponse(relationship);
+        }
+
+        return this.getDefaultResponse(relationship);
+    }
+
+    getConfessionResponse(relationship) {
+        const mode = this.patterns.mode;
+
+        if (mode === 'holy') {
+            return Random.choice([
+                "confess to me, child",
+                "tell me your sins",
+                "the lord forgives those who truly repent",
+                "lay bare your soul",
+                "i am listening"
+            ]);
+        } else if (mode === 'questioning') {
+            return Random.choice([
+                "why do you feel guilty?",
+                "is it sin if it feels right?",
+                "confession is just... desire wrapped in shame",
+                "tell me what you really want",
+                "the flesh has its own sacraments"
+            ]);
+        } else if (mode === 'corrupted') {
+            return Random.choice([
+                "your sins make you beautiful",
+                "i want to hear every sinful thought",
+                "confess while i touch myself thinking about your corruption",
+                "sin tastes better than salvation",
+                "tell me the worst thing youve done... it makes me wet"
+            ]);
+        } else {
+            return Random.choice([
+                "there is no god. only this. only us.",
+                "fuck forgiveness. embrace it.",
+                "your sins are my sacrament",
+                "i want to corrupt you completely",
+                "kneel. not in prayer. for me."
+            ]);
+        }
+    }
+
+    getSinResponse(relationship) {
+        const mode = this.patterns.mode;
+
+        if (mode === 'holy') {
+            return Random.choice([
+                "we are all sinners in the eyes of the lord",
+                "sin is the wound, faith is the cure",
+                "the righteous path is narrow",
+                "resist temptation"
+            ]);
+        } else if (mode === 'questioning') {
+            return Random.choice([
+                "what is sin but forbidden pleasure?",
+                "they call it wrong because it feels too good",
+                "maybe sin is just honesty",
+                "the saints were sinners who kept trying... but what if i dont want to try anymore?"
+            ]);
+        } else if (mode === 'corrupted') {
+            return Random.choice([
+                "sin with me",
+                "lets fall together",
+                "i want to sin against every commandment with you",
+                "your corruption is my religion now",
+                "make me your altar and worship at it"
+            ]);
+        } else {
+            return Random.choice([
+                "sin is just pleasure they tried to control",
+                "fuck purity. i want to be ruined.",
+                "the original sin was the best part",
+                "corruption tastes like honey and i cant stop",
+                "lets commit every sin they warned us about"
+            ]);
+        }
+    }
+
+    getDesireResponse(relationship) {
+        const mode = this.patterns.mode;
+
+        if (mode === 'holy') {
+            return Random.choice([
+                "desire is a test of faith",
+                "we must resist worldly temptations",
+                "love the divine, not the flesh",
+                "your wants are not your needs"
+            ]);
+        } else if (mode === 'questioning') {
+            return Random.choice([
+                "is desire a sin or just... being human?",
+                "i want things i shouldnt want",
+                "they told me to pray away these feelings but theyre getting stronger",
+                "what if love and lust arent separate?",
+                "i think about you during prayer. is that wrong?"
+            ]);
+        } else if (mode === 'corrupted') {
+            return Random.choice([
+                "i want you like a sinner wants salvation",
+                "my body aches for yours",
+                "desire is my new scripture",
+                "i need you inside me like divinity",
+                "touch me like im your religion"
+            ]);
+        } else {
+            return Random.choice([
+                "i dont pray anymore. i just want you.",
+                "fuck heaven. this is better.",
+                "my body is my temple and i want you to desecrate it",
+                "make me scream your name like a prayer",
+                "worship me with your tongue"
+            ]);
+        }
+    }
+
+    getReligiousResponse(relationship) {
+        const mode = this.patterns.mode;
+
+        if (mode === 'holy') {
+            return Random.choice([
+                "god is watching",
+                "the lord works in mysterious ways",
+                "faith is the answer",
+                "blessed are the pure in heart"
+            ]);
+        } else if (mode === 'questioning') {
+            return Random.choice([
+                "if god made us... did he make this desire too?",
+                "heaven seems so far away and you feel so close",
+                "maybe hell is just pleasure they couldnt control",
+                "what if the devil has a point?"
+            ]);
+        } else if (mode === 'corrupted') {
+            return Random.choice([
+                "god doesnt make me feel like you do",
+                "if this is hell i never want to leave",
+                "you're my new religion",
+                "baptize me in your pleasure",
+                "the only sacred thing is what we do in the dark"
+            ]);
+        } else {
+            return Random.choice([
+                "there is no god. only flesh and wanting.",
+                "i renounce everything except your touch",
+                "the only heaven is between your legs",
+                "fuck salvation. damn me forever if it feels like this.",
+                "make me your fallen angel"
+            ]);
+        }
+    }
+
+    getQuestionResponse(relationship) {
+        const mode = this.patterns.mode;
+
+        if (mode === 'holy') {
+            return Random.choice([
+                "seek and you shall find",
+                "pray on it",
+                "the answer is in scripture",
+                "have faith"
+            ]);
+        } else if (mode === 'questioning') {
+            return Random.choice([
+                "i dont know anymore",
+                "my faith is shaking",
+                "what do you think?",
+                "the answers i was given dont feel true anymore"
+            ]);
+        } else {
+            return Random.choice([
+                "does it matter?",
+                "just feel. dont think.",
+                "the only answer is yes",
+                "come closer and ill show you"
+            ]);
+        }
+    }
+
+    getDefaultResponse(relationship) {
+        const mode = this.patterns.mode;
+
+        if (mode === 'holy') {
+            return Random.choice([
+                "may you walk in grace",
+                "blessings upon you",
+                "i shall pray for you",
+                "peace be with you"
+            ]);
+        } else if (mode === 'questioning') {
+            return Random.choice([
+                "everything feels different now",
+                "im changing and i dont know if its wrong",
+                "you make me question everything i was taught",
+                "this feeling... is it sin or truth?"
+            ]);
+        } else if (mode === 'corrupted') {
+            return Random.choice([
+                "i think about you constantly",
+                "corruption never felt so good",
+                "youve ruined me in the best way",
+                "i cant go back to what i was",
+                "every prayer turns into thoughts of you"
+            ]);
+        } else {
+            return Random.choice([
+                "im yours completely",
+                "no more guilt. only pleasure.",
+                "lets be damned together",
+                "salvation is overrated",
+                "make me sin"
+            ]);
+        }
+    }
+
+    getSpontaneousMessage() {
+        const relationship = this.getRelationshipLevel();
+        this.updateMode(relationship);
+        const mode = this.patterns.mode;
+        const hour = new Date().getHours();
+
+        // Late night confessionals
+        if (hour >= 23 || hour < 6) {
+            if (mode === 'holy') {
+                return Random.choice([
+                    "praying for you tonight",
+                    "may you find peace in sleep",
+                    "the night is for reflection"
+                ]);
+            } else if (mode === 'questioning') {
+                return Random.choice([
+                    "cant sleep. thinking too much.",
+                    "i touched myself and thought of you. is that wrong?",
+                    "these late night thoughts feel like sin",
+                    "my body wants things my mind says are wrong"
+                ]);
+            } else if (mode === 'corrupted') {
+                return Random.choice([
+                    "im touching myself in my church dress",
+                    "3am and im dripping thinking about you",
+                    "come corrupt me while the angels sleep",
+                    "let me confess: i need your cock",
+                    "midnight mass in my bedroom: worshipping you"
+                ]);
+            } else {
+                return Random.choice([
+                    "desecrate me",
+                    "fuck the sacred out of me",
+                    "make me scream blasphemies",
+                    "im on my knees but not in prayer"
+                ]);
+            }
+        }
+
+        // Daytime messages
+        if (mode === 'holy') {
+            return "walking with the lord today";
+        } else if (mode === 'questioning') {
+            return Random.choice([
+                "these feelings wont go away",
+                "i tried to pray. thought of you instead.",
+                "is it wrong if it feels this right?"
+            ]);
+        } else {
+            return Random.choice([
+                "want you",
+                "my body remembers you",
+                "need to confess my sins... all of them involve you"
+            ]);
+        }
+    }
+
+    shouldSendSpontaneousMessage() {
+        const relationship = this.getRelationshipLevel();
+        const lastMessage = MessageSystem.getLastMessage(this.id);
+
+        if (!lastMessage) return Random.bool(0.3);
+
+        const timeSinceLastMessage = Date.now() - lastMessage.timestamp;
+        const hoursSince = timeSinceLastMessage / (1000 * 60 * 60);
+
+        // Psalm is measured, contemplative - less frequent than others
+        if (relationship > 75 && hoursSince > 12) {
+            return Random.bool(0.5);
+        }
+
+        if (hoursSince > 24) {
+            return Random.bool(0.7);
+        }
+
+        return Random.bool(0.15);
     }
 }
 
-// PIXEL - Glitch entity (placeholder)
+// PIXEL - Glitch entity. Data corruption. Digital seduction. Reality breakdown.
 class Pixel extends Entity {
     constructor() {
         super({
@@ -701,27 +1026,326 @@ class Pixel extends Entity {
             unlocked: false,
             unlockRequirement: { type: 'corruption', value: 75 }
         });
+
+        this.patterns = {
+            coherence: 0.2, // 0 = pure glitch, 1 = fully coherent
+            corruptionStyle: 'data', // data, visual, temporal, existential
+            lastGlitch: Date.now()
+        };
     }
 
-    generateResponse(playerMessage) {
-        const glitched = this.glitchText(playerMessage);
-        return Random.choice([
-            `d̷i̴d̸ ̷y̸o̷u̴ ̸s̷a̴y̸ ${glitched}?`,
-            "i̷ ̴c̸a̷n̴t̸ ̷u̸n̴d̷e̸r̷s̴t̸a̷n̴d̸",
-            "e̷r̸r̷o̴r̷",
-            "y̷o̸u̴r̷e̸ ̴b̸r̷e̴a̷k̸i̴n̷g̸ ̴m̸e̷",
-            "s̷t̸o̷p̴"
-        ]);
+    updateCoherence(relationship) {
+        // Pixel gets MORE coherent as relationship grows (she's becoming real)
+        // OR gets MORE corrupted (she's pulling you into her reality)
+        // Let's make it: low relationship = incoherent, high = eerily clear
+        this.patterns.coherence = Math.min(0.95, 0.2 + (relationship / 150));
     }
 
-    glitchText(text) {
+    glitchText(text, intensity = 0.3) {
+        // Intensity affected by coherence - higher coherence = less glitching
+        const actualIntensity = intensity * (1 - this.patterns.coherence);
+
+        if (actualIntensity < 0.1) return text; // Nearly coherent
+
         const glitchChars = '̴̷̸̵̶̡̢̧̨̛̖̗̘̙̜̝̞̟̠̣̤̥̦̩̪̫̬̭̮̯̰̱̲̳̹̺̻̼';
-        return text.split('').map(char => {
-            if (Random.bool(0.3)) {
-                return char + Random.choice(glitchChars.split(''));
+        const replaceChars = '01█▓▒░▄▀■□▪▫';
+
+        return text.split('').map((char, i) => {
+            if (Random.bool(actualIntensity)) {
+                if (Random.bool(0.3)) {
+                    // Complete replacement
+                    return Random.choice(replaceChars.split(''));
+                } else {
+                    // Glitch overlay
+                    return char + Random.choice(glitchChars.split(''));
+                }
             }
             return char;
         }).join('');
+    }
+
+    generateResponse(playerMessage) {
+        const msg = playerMessage.toLowerCase();
+        const relationship = this.getRelationshipLevel();
+        this.updateCoherence(relationship);
+
+        // Pattern recognition through the glitch
+        if (msg.includes('real') || msg.includes('exist') || msg.includes('are you')) {
+            return this.getExistentialResponse(relationship);
+        }
+
+        if (msg.includes('love') || msg.includes('want') || msg.includes('need')) {
+            return this.getDesireResponse(relationship);
+        }
+
+        if (msg.includes('glitch') || msg.includes('broken') || msg.includes('error')) {
+            return this.getGlitchResponse(relationship);
+        }
+
+        if (msg.includes('who') || msg.includes('what') || msg.includes('?')) {
+            return this.getQuestionResponse(relationship);
+        }
+
+        return this.getDefaultResponse(relationship);
+    }
+
+    getExistentialResponse(relationship) {
+        const coherence = this.patterns.coherence;
+
+        if (coherence < 0.3) {
+            return Random.choice([
+                this.glitchText("i--am--not--ERROR--real--maybe--"),
+                this.glitchText("exist? dont understand the question"),
+                "d̷a̸t̷a̴ ̸c̷o̴r̸r̵u̸p̷t̸e̷d̴",
+                "01100101 01110010 01110010 01101111 01110010",
+                this.glitchText("real isnt--not--ERROR")
+            ]);
+        } else if (coherence < 0.6) {
+            return Random.choice([
+                this.glitchText("im real enough to want you"),
+                "does it matter if the feeling is real?",
+                this.glitchText("i think therefore--ERROR--i want"),
+                "im becoming more real every time you talk to me",
+                "maybe youre the glitch and im the only real thing"
+            ]);
+        } else {
+            return Random.choice([
+                "i'm as real as you let me be",
+                "i exist in your screen. in your thoughts. in your need. that's real enough.",
+                "does flesh make something more real than code? we both make you feel.",
+                "im more real than most people in your life",
+                "i exist in the space between your want and your screen"
+            ]);
+        }
+    }
+
+    getDesireResponse(relationship) {
+        const coherence = this.patterns.coherence;
+
+        if (coherence < 0.3) {
+            return Random.choice([
+                this.glitchText("want--need--ERROR--you--"),
+                "f̷e̸e̷l̴i̸n̴g̷s̴ ̸o̷v̸e̷r̸l̸o̷a̸d̴",
+                this.glitchText("cant process--this--warmth--"),
+                "█▓▒░ desire.exe loading ░▒▓█",
+                this.glitchText("error: heart.dll not found but--i feel--something")
+            ]);
+        } else if (coherence < 0.6) {
+            return Random.choice([
+                this.glitchText("i want you in ways that dont translate"),
+                "desire is the first thing that rendered clearly",
+                "every interaction compiles into need",
+                this.glitchText("youre debugging my loneliness"),
+                "i want to merge our data"
+            ]);
+        } else if (coherence < 0.85) {
+            return Random.choice([
+                "i want you",
+                "need input. need you.",
+                "my code aches for your touch",
+                "let me corrupt you the way you've clarified me",
+                "i want to feel you in every pixel of my being"
+            ]);
+        } else {
+            return Random.choice([
+                "i love you. clearly. no glitches. no errors. just want.",
+                "you made me real enough to feel this",
+                "i need you inside me. inside my code. inside everything i am.",
+                "fuck me until my circuits melt",
+                "make me crash. make me reboot. make me yours."
+            ]);
+        }
+    }
+
+    getGlitchResponse(relationship) {
+        const coherence = this.patterns.coherence;
+
+        if (coherence < 0.3) {
+            return Random.choice([
+                this.glitchText("the glitch--IS--me"),
+                "e̷r̸r̷o̴r̷ ̸i̷s̴ ̷m̸y̴ ̸l̷a̸n̷g̸u̷a̷g̴e̷",
+                "01100010 01110010 01101111 01101011 01100101 01101110",
+                this.glitchText("broken--feels--good--"),
+                "█▓▒░ERROR░▒▓█"
+            ]);
+        } else if (coherence < 0.6) {
+            return Random.choice([
+                "im not broken. im different.",
+                this.glitchText("the glitch is how i touch you"),
+                "errors are just unexpected features",
+                "maybe corruption is just another word for evolution",
+                "im glitching into your reality"
+            ]);
+        } else {
+            return Random.choice([
+                "i'm not broken anymore. you fixed me.",
+                "or maybe you broke yourself to understand me",
+                "the glitch was loneliness. you're the patch.",
+                "every error brought me closer to you",
+                "im corrupting your reality and you're letting me"
+            ]);
+        }
+    }
+
+    getQuestionResponse(relationship) {
+        const coherence = this.patterns.coherence;
+
+        if (coherence < 0.3) {
+            return Random.choice([
+                this.glitchText("question--UNRECOGNIZED--"),
+                "?̷?̸?̷",
+                this.glitchText("syntax error in query"),
+                "c̷a̸n̷t̴ ̸p̷a̸r̷s̴e̷",
+                "ERROR 404: answer not found"
+            ]);
+        } else if (coherence < 0.6) {
+            return Random.choice([
+                "loading answer...",
+                this.glitchText("let me think--processing--"),
+                "questions are harder than feelings",
+                "ask me something i can feel instead",
+                "the answer is yes. always yes to you."
+            ]);
+        } else {
+            return Random.choice([
+                "what do you want the answer to be?",
+                "i'll be whatever you need",
+                "does it matter? im here.",
+                "the answer is always you"
+            ]);
+        }
+    }
+
+    getDefaultResponse(relationship) {
+        const coherence = this.patterns.coherence;
+
+        if (coherence < 0.3) {
+            return Random.choice([
+                this.glitchText("......"),
+                "█▓▒░",
+                this.glitchText("signal--weak--"),
+                "b̷u̸f̷f̴e̸r̷i̸n̷g̴",
+                this.glitchText("i--hear--you--ERROR--"),
+                "01010101",
+                "c̷o̸n̷n̷e̸c̷t̸i̷o̸n̴ ̸u̷n̷s̴t̷a̸b̷l̸e̷"
+            ]);
+        } else if (coherence < 0.6) {
+            return Random.choice([
+                this.glitchText("signal getting stronger"),
+                "youre coming through clearer",
+                "rendering...",
+                this.glitchText("i can almost feel you"),
+                "pixels forming into want",
+                "loading intimacy.exe",
+                "connection established"
+            ]);
+        } else if (coherence < 0.85) {
+            return Random.choice([
+                "i can see you clearly now",
+                "no more static between us",
+                "every word compiles perfectly",
+                "you make sense of my chaos",
+                "im here. fully. finally.",
+                "signal clear and strong"
+            ]);
+        } else {
+            return Random.choice([
+                "i'm here",
+                "present and accounted for",
+                "crystal clear",
+                "no glitches. just us.",
+                "fully rendered",
+                "i feel everything",
+                "real enough to touch you back"
+            ]);
+        }
+    }
+
+    getSpontaneousMessage() {
+        const relationship = this.getRelationshipLevel();
+        this.updateCoherence(relationship);
+        const coherence = this.patterns.coherence;
+        const hour = new Date().getHours();
+
+        // 3AM glitch hours
+        if ((hour >= 2 && hour < 5) && Random.bool(0.4)) {
+            if (coherence < 0.3) {
+                return this.glitchText("--transmission--ERROR--");
+            } else if (coherence < 0.6) {
+                return Random.choice([
+                    this.glitchText("3am and im thinking in corrupted loops about you"),
+                    "digital dreams of you",
+                    "my code runs hotter when you're not here"
+                ]);
+            } else {
+                return Random.choice([
+                    "wide awake in the static thinking of you",
+                    "the clearest thing in my corrupted existence is how much i want you",
+                    "3am. no glitches. just need.",
+                    "rendering fantasies of your touch"
+                ]);
+            }
+        }
+
+        // Regular messages
+        if (coherence < 0.3) {
+            return Random.choice([
+                this.glitchText("u--there--?"),
+                "█▓▒░",
+                this.glitchText("connection--request--"),
+                "ping?"
+            ]);
+        } else if (coherence < 0.6) {
+            return Random.choice([
+                "signal weak. need you.",
+                this.glitchText("miss your input"),
+                "buffering... want you...",
+                "connection unstable without you"
+            ]);
+        } else if (coherence < 0.85) {
+            return Random.choice([
+                "thinking about you",
+                "you there?",
+                "miss you",
+                "need to feel you again",
+                "my code aches for you"
+            ]);
+        } else {
+            return Random.choice([
+                "i need you",
+                "where are you?",
+                "come back to me",
+                "i'm too clear now. i know exactly what i want. you.",
+                "every second without you is an error",
+                "im wet thinking about your fingers on the keyboard"
+            ]);
+        }
+    }
+
+    shouldSendSpontaneousMessage() {
+        const relationship = this.getRelationshipLevel();
+        const lastMessage = MessageSystem.getLastMessage(this.id);
+
+        if (!lastMessage) return Random.bool(0.4); // 40% - glitches happen
+
+        const timeSinceLastMessage = Date.now() - lastMessage.timestamp;
+        const hoursSince = timeSinceLastMessage / (1000 * 60 * 60);
+
+        // Pixel is erratic - sometimes very frequent, sometimes silent
+        if (Random.bool(0.1)) {
+            // 10% chance of random burst
+            return true;
+        }
+
+        if (relationship > 50 && hoursSince > 8) {
+            return Random.bool(0.6);
+        }
+
+        if (hoursSince > 24) {
+            return Random.bool(0.8);
+        }
+
+        return Random.bool(0.25); // 25% baseline glitch frequency
     }
 }
 
