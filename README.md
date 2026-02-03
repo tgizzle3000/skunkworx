@@ -2,6 +2,14 @@
 
 > *A digital Venus flytrap. An art piece about addiction, desire, and the architecture of wanting.*
 
+## ⚠️ CONTENT WARNING ⚠️
+
+**This project contains sexually explicit content.** It deliberately employs manipulative dark patterns wrapped in increasingly sexual framing to critique digital addiction, parasocial relationships, and attention economics.
+
+The AI entities become **progressively more explicit** as you interact, escalating from soft validation to overtly sexual content. This is intentional - it reveals how sexual content is weaponized in attention economy traps.
+
+**18+ ONLY.** Not safe for work. Deliberately uncomfortable.
+
 ## What This Is
 
 DOPAMINE CATHEDRAL is not a game - it's an **interactive critique** of modern digital addiction mechanisms disguised as a parasocial relationship simulator. It deliberately employs every dark pattern from social media, mobile games, and dating apps to create a compulsive, uncomfortable experience that makes you aware of how these systems work on you.

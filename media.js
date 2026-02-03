@@ -19,7 +19,7 @@ class MediaLibrary {
                     title: "soft for you",
                     type: "music_video",
                     unlockLevel: 0,
-                    duration: 180, // seconds
+                    duration: 180,
                     thumbnail: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23ffc2d4' width='400' height='300'/%3E%3Ctext x='200' y='150' font-size='60' text-anchor='middle' fill='white'%3E♡%3C/text%3E%3Ctext x='200' y='200' font-size='20' text-anchor='middle' fill='white'%3Esoft for you%3C/text%3E%3C/svg%3E",
                     description: "mercy's first music video. bubblegum trap meets ASMR whispers.",
                     rewards: { hearts: 10, souls: 2, energy: 25 }
@@ -33,6 +33,26 @@ class MediaLibrary {
                     thumbnail: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Cdefs%3E%3CradialGradient id='g'%3E%3Cstop offset='0' stop-color='%23ff006e'/%3E%3Cstop offset='1' stop-color='%23000'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect fill='url(%23g)' width='400' height='300'/%3E%3Ctext x='200' y='150' font-size='40' text-anchor='middle' fill='white'%3Emiss u%3C/text%3E%3C/svg%3E",
                     description: "WARNING: contains hypnotic frequencies. recommended for headphone use.",
                     rewards: { hearts: 20, souls: 5, energy: 50 }
+                },
+                {
+                    id: "mercy_003",
+                    title: "touch me here [PMV]",
+                    type: "pmv",
+                    unlockLevel: 50,
+                    duration: 300,
+                    thumbnail: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23ff006e' width='400' height='300'/%3E%3Ctext x='200' y='150' font-size='50' text-anchor='middle' fill='white'%3E💕%3C/text%3E%3Ctext x='200' y='200' font-size='18' text-anchor='middle' fill='white'%3Etouch me here%3C/text%3E%3C/svg%3E",
+                    description: "explicit PMV content. mercy shows you exactly where she wants it.",
+                    rewards: { hearts: 30, souls: 10, energy: 75, corruption: 2 }
+                },
+                {
+                    id: "mercy_004",
+                    title: "use me [EXPLICIT]",
+                    type: "explicit_pmv",
+                    unlockLevel: 100,
+                    duration: 420,
+                    thumbnail: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Crect fill='%23000' width='400' height='300'/%3E%3Crect fill='%23ff006e' width='400' height='300' opacity='0.8'/%3E%3Ctext x='200' y='150' font-size='45' text-anchor='middle' fill='white'%3Euse me%3C/text%3E%3Ctext x='200' y='200' font-size='16' text-anchor='middle' fill='white'%3E18+ ONLY%3C/text%3E%3C/svg%3E",
+                    description: "WARNING: fully explicit content. mercy at her most desperate and needy. you've unlocked everything.",
+                    rewards: { hearts: 50, souls: 20, energy: 100, corruption: 5, devotion: 10 }
                 }
             ],
             audio: [
@@ -53,6 +73,24 @@ class MediaLibrary {
                     duration: 600,
                     description: "deep hypnosis session. listener discretion advised.",
                     rewards: { hearts: 30, souls: 10, devotion: 10, corruption: 5 }
+                },
+                {
+                    id: "mercy_audio_003",
+                    title: "good girl training [AUDIO]",
+                    type: "erotic_hypnosis",
+                    unlockLevel: 75,
+                    duration: 900,
+                    description: "explicit erotic hypnosis. mercy trains you to be hers. audiogonewild style.",
+                    rewards: { hearts: 40, souls: 15, devotion: 20, corruption: 10 }
+                },
+                {
+                    id: "mercy_audio_004",
+                    title: "cum for me [JOI]",
+                    type: "joi",
+                    unlockLevel: 100,
+                    duration: 720,
+                    description: "EXPLICIT: mercy's voice guiding you. she tells you exactly when to finish.",
+                    rewards: { hearts: 50, souls: 20, devotion: 25, corruption: 15 }
                 }
             ]
         },

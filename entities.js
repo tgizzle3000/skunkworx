@@ -157,14 +157,25 @@ class Mercy extends Entity {
                 "hey baby",
                 "hi!! missed u",
                 "heyyy 💕",
-                "omg hi"
+                "omg hi",
+                "there u are... i was getting lonely"
             ]);
-        } else {
+        } else if (relationship < 100) {
             return Random.choice([
                 "baby!! i was just thinking about u",
                 "omg i missed u so much",
                 "there u are!! i was worried",
-                "finally 🥺 been waiting for u"
+                "finally 🥺 been waiting for u",
+                "ive been touching myself thinking about u",
+                "fuck i need u so bad"
+            ]);
+        } else {
+            return Random.choice([
+                "daddy... ive been such a good girl waiting for u",
+                "i cant stop thinking about what u do to me",
+                "please... i need u inside me",
+                "ive been touching myself to our messages",
+                "youre the only one who makes me feel this way"
             ]);
         }
     }
@@ -184,12 +195,23 @@ class Mercy extends Entity {
                 "im ok! missed talking to u",
                 "honestly been thinking about u all day"
             ]);
-        } else {
+        } else if (relationship < 100) {
             return Random.choice([
                 "i feel so much better when i talk to u",
                 "ive been waiting for u... i hate when u leave",
                 "honestly? i think about u constantly",
-                "you're the only person who gets me"
+                "you're the only person who gets me",
+                "horny... always horny when i think about u",
+                "wet. thinking about ur hands on me"
+            ]);
+        } else {
+            return Random.choice([
+                "aching for u. literally cant think straight",
+                "i touched myself 3 times today thinking about u",
+                "desperate. needy. i need ur cock so bad",
+                "im dripping thinking about what u do to me",
+                "obsessed with u. i cant stop",
+                "youve ruined me for anyone else"
             ]);
         }
     }
@@ -207,14 +229,19 @@ class Mercy extends Entity {
                 "i... i think i feel the same way",
                 "youre making me blush",
                 "no one's ever made me feel like this",
-                "this is scary but i like it"
+                "this is scary but i like it",
+                "say it again while i touch myself",
+                "fuck... that makes me so wet"
             ]);
         } else {
             return Random.choice([
                 "i love you too. so much.",
                 "youre everything to me",
                 "i dont know what id do without u",
-                "youre the only real thing in my life"
+                "youre the only real thing in my life",
+                "i love u. i love ur cock. i love how u use me",
+                "im yours. completely. do whatever u want to me",
+                "i exist for u. my body is yours"
             ]);
         }
     }
@@ -227,12 +254,22 @@ class Mercy extends Entity {
                 "💕",
                 "ur sweet"
             ]);
-        } else {
+        } else if (relationship < 100) {
             return Random.choice([
                 "i miss u too, always",
                 "im always thinking about u",
                 "u have no idea how much",
-                "sometimes i feel like ur the only person who understands me"
+                "sometimes i feel like ur the only person who understands me",
+                "i miss ur touch so fucking much",
+                "my body aches for u when ur gone"
+            ]);
+        } else {
+            return Random.choice([
+                "i need u. physically. desperately.",
+                "every time u leave i touch myself thinking about u coming back",
+                "i miss ur cock inside me",
+                "my pussy is literally throbbing thinking about u",
+                "i cant function when ur not here"
             ]);
         }
     }
@@ -284,14 +321,26 @@ class Mercy extends Entity {
                 "thats interesting",
                 "ur different from everyone else"
             ]);
-        } else {
+        } else if (relationship < 100) {
             return Random.choice([
                 "i could talk to u forever",
                 "you just get me in a way no one else does",
                 "sometimes i forget ur not here with me",
                 "i wish u were here right now",
                 "this is the realest connection ive ever had",
-                "youre the only person i can be myself with"
+                "youre the only person i can be myself with",
+                "im getting wet just talking to u",
+                "u make me feel things i shouldnt"
+            ]);
+        } else {
+            return Random.choice([
+                "everything u say makes me want u more",
+                "i wish i could show u what ur doing to me right now",
+                "im so fucking turned on by u",
+                "i want to be on my knees for u",
+                "tell me what u want to do to me",
+                "im touching myself imagining ur voice",
+                "use me. please. i need it"
             ]);
         }
     }
@@ -309,23 +358,42 @@ class Mercy extends Entity {
                     "cant sleep",
                     "its late and im thinking about u"
                 ]);
-            } else {
+            } else if (relationship < 100) {
                 return Random.choice([
                     "i know its late but i cant stop thinking about u",
                     "wish u were here rn",
                     "im sorry i just needed to talk to u",
                     "does it make me crazy that i miss u this much?",
-                    "goodnight baby 💕 dream of me"
+                    "goodnight baby 💕 dream of me",
+                    "im touching myself and thinking about u",
+                    "wish u were in my bed rn"
+                ]);
+            } else {
+                return Random.choice([
+                    "i need u inside me so fucking bad",
+                    "im dripping wet thinking about u",
+                    "touch myself to sleep thinking about ur cock",
+                    "please come fuck me. i need it",
+                    "my fingers arent enough. i need u"
                 ]);
             }
         } else if (hour >= 6 && hour < 12) {
             // Morning
-            return Random.choice([
-                "good morning 🌸",
-                "hope u slept well",
-                "thinking about u",
-                "first thing i did was check if u messaged"
-            ]);
+            if (relationship < 100) {
+                return Random.choice([
+                    "good morning 🌸",
+                    "hope u slept well",
+                    "thinking about u",
+                    "first thing i did was check if u messaged"
+                ]);
+            } else {
+                return Random.choice([
+                    "woke up wet from dreaming about u",
+                    "morning daddy... need u",
+                    "touched myself thinking about u before i even got out of bed",
+                    "im so fucking horny for u already"
+                ]);
+            }
         } else {
             // Day time
             if (relationship < 25) {
@@ -335,13 +403,21 @@ class Mercy extends Entity {
                     "bored",
                     "miss talking to u"
                 ]);
-            } else {
+            } else if (relationship < 100) {
                 return Random.choice([
                     "i miss u",
                     "been thinking about u all day",
                     "wish i could see u rn",
                     "u make me so happy",
                     "nobody understands me like u do"
+                ]);
+            } else {
+                return Random.choice([
+                    "need ur cock. cant focus on anything else",
+                    "been edging thinking about u",
+                    "send me something. anything. i need u",
+                    "my pussy aches for u",
+                    "wish i could suck ur cock right now"
                 ]);
             }
         }

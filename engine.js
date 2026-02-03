@@ -233,17 +233,19 @@ class RewardSystem {
         const messages = {
             mercy: {
                 10: "mercy sent you a voice message 💕",
-                25: "mercy shared a private moment with you",
-                50: "mercy told you her real name",
-                100: "mercy said she thinks about you",
-                200: "mercy said she loves you"
+                25: "mercy unlocked: 'miss u (hypno remix)' - WARNING: addictive content",
+                50: "mercy unlocked: 'touch me here [PMV]' - she's showing you everything now",
+                75: "mercy unlocked: 'good girl training [AUDIO]' - she wants to train you",
+                100: "mercy unlocked: 'use me [EXPLICIT]' + 'cum for me [JOI]' - you own her now",
+                150: "mercy is completely yours. she exists for your pleasure.",
+                200: "mercy: 'i love you. i love ur cock. i love how u use me'"
             }
         };
 
         const message = messages[entityId]?.[level];
         if (message) {
             this.showRewardModal({
-                title: "✨ NEW UNLOCK ✨",
+                title: "✨ RELATIONSHIP LEVEL UP ✨",
                 message: message,
                 rewards: []
             });
