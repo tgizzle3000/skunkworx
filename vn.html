@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#0a0a0f">
+  <title>NEON VENOM ◈ DOPAMINE CATHEDRAL</title>
+  <link rel="stylesheet" href="vn-style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ── Root game container ──────────────────────────────────────────────── -->
+  <div id="game">
+
+    <!-- Full-screen background art -->
+    <div id="bg-layer"></div>
+
+    <!-- Character art overlay (transparent PNG) -->
+    <img id="char-layer" src="" alt="" aria-hidden="true">
+
+    <!-- Transition effect overlays -->
+    <div id="glitch-overlay" aria-hidden="true"></div>
+    <div id="flash-overlay"  aria-hidden="true"></div>
+
+    <!-- ── Stats HUD (top bar) ─────────────────────────────────────────────── -->
+    <div id="stats" aria-label="Player stats" role="status">
+
+      <span class="stat" title="Lucidity">
+        <span class="stat-label">LUCIDITY</span>
+        <span class="stat-bar-wrap">
+          <span class="stat-bar" id="lucidity-bar" style="width:100%"></span>
+        </span>
+        <span class="stat-value" id="lucidity-value">100</span>
+      </span>
+
+      <span class="stat" title="Arousal">
+        <span class="stat-label">AROUSAL</span>
+        <span class="stat-bar-wrap">
+          <span class="stat-bar arousal" id="arousal-bar" style="width:0%"></span>
+        </span>
+        <span class="stat-value" id="arousal-value">0</span>
+      </span>
+
+      <span class="stat" title="Devotion">
+        <span class="stat-label">♡ DEVOTION</span>
+        <span class="stat-value" id="devotion-value">0</span>
+      </span>
+
+      <span class="stat" title="Clues found">
+        <span class="stat-label">CLUES</span>
+        <span class="stat-value" id="clues-value">0</span>
+      </span>
+
+    </div>
+
+    <!-- ── Text box (bottom reading area) ─────────────────────────────────── -->
+    <div id="text-box" role="main" aria-live="polite">
+
+      <!-- Speaker name tag -->
+      <div class="speaker-line">
+        <span class="speaker narrator" id="speaker-tag"></span>
+      </div>
+
+      <!-- Prose content (typewritten) -->
+      <div id="prose-text"></div>
+
+      <!-- Branching choices -->
+      <div class="choices" id="choices-container" role="group" aria-label="Choices"></div>
+
+      <!-- Click-to-continue hint -->
+      <div class="advance-hint" id="advance-hint" aria-hidden="true">▼ click to continue</div>
+
+    </div>
+
+    <!-- ── Main menu (shown on load, hidden during gameplay) ──────────────── -->
+    <div id="main-menu" class="active" role="dialog" aria-label="Main menu">
+
+      <div class="menu-title">
+        <h1 class="menu-logo">NEON VENOM</h1>
+        <p class="menu-subtitle">Tales from the Dopamine Cathedral</p>
+      </div>
+
+      <nav class="menu-options" aria-label="Menu options">
+        <button class="menu-btn" id="btn-start">◈ BEGIN TRANSMISSION</button>
+        <button class="menu-btn" id="btn-continue" style="display:none">◈ CONTINUE</button>
+        <button class="menu-btn secondary" id="btn-new">◈ NEW GAME</button>
+      </nav>
+
+      <div class="menu-credits" aria-label="Credits">
+        <p>EPISODE I — BELLEPHINE</p>
+        <p>FERAL FREQUENCY / $LUTZ4S@TAN</p>
+        <p class="warning">⚠ ADULT CONTENT — 18+ ONLY ⚠</p>
+      </div>
+
+    </div>
+
+  </div><!-- #game -->
+
+  <!-- Engine must load before passages -->
+  <script src="vn-engine.js"></script>
+  <script src="vn-passages-ep01.js"></script>
+
+</body>
+</html>

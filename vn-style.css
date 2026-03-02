@@ -1,0 +1,453 @@
+/**
+ * NEON VENOM: TALES FROM THE DOPAMINE CATHEDRAL
+ * VN Stylesheet — Phase 1 Prototype
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Press+Start+2P&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --pink:    #ff2d7b;
+  --cyan:    #00f0ff;
+  --green:   #39ff14;
+  --gold:    #ffd700;
+  --red:     #ff1744;
+  --purple:  #6a0dad;
+  --bg-dark: #0a0a0f;
+  --text:    #ccd;
+  --text-dim: #667;
+  --glass:   rgba(10,10,15,0.93);
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg-dark);
+  font-family: 'Special Elite', serif;
+  color: var(--text);
+}
+
+/* ── Game Container ─────────────────────────────────── */
+
+#game {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-dark);
+  user-select: none;
+}
+
+/* ── Background Layer ──────────────────────────────── */
+
+#bg-layer {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: opacity 0.8s, filter 0.6s;
+  filter: brightness(0.82) saturate(1.2);
+  will-change: filter, transform;
+}
+
+/* ── Character Layer ───────────────────────────────── */
+
+#char-layer {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  max-height: 85vh;
+  max-width: 65vw;
+  object-fit: contain;
+  transition: opacity 0.5s, transform 0.5s;
+  filter: drop-shadow(0 0 28px rgba(255,45,123,0.22));
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+}
+
+#char-layer.visible {
+  opacity: 1;
+}
+
+/* ── Overlay Layers ────────────────────────────────── */
+
+#glitch-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 90;
+  display: none;
+}
+
+#flash-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 95;
+  opacity: 0;
+}
+
+/* ── Stats HUD ─────────────────────────────────────── */
+
+#stats {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.72) 0%, transparent 100%);
+  display: flex;
+  align-items: center;
+  padding: 0 1.2rem;
+  gap: 1.6rem;
+  z-index: 50;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.3rem;
+  letter-spacing: 0.06em;
+  user-select: none;
+  pointer-events: none;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.stat-label {
+  color: var(--text-dim);
+  text-transform: uppercase;
+}
+
+.stat-bar-wrap {
+  width: 55px;
+  height: 3px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.stat-bar {
+  height: 100%;
+  width: 100%;
+  background: var(--cyan);
+  border-radius: 2px;
+  transition: width 0.6s ease, background 0.6s ease;
+}
+
+.stat-bar.arousal { background: var(--pink); }
+.stat-bar.low     { background: var(--red);  }
+.stat-bar.mid     { background: #ffab00;     }
+
+.stat-value {
+  color: var(--text);
+  min-width: 2ch;
+  text-align: right;
+}
+
+/* ── Text Box ──────────────────────────────────────── */
+
+#text-box {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  min-height: 38vh;
+  max-height: 58vh;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(10,10,15,0.78) 10%,
+    rgba(10,10,15,0.95) 100%
+  );
+  padding: 1.8rem 3.5rem 2.2rem;
+  overflow-y: auto;
+  z-index: 30;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,45,123,0.3) transparent;
+  cursor: pointer;
+}
+
+#text-box::-webkit-scrollbar       { width: 3px; }
+#text-box::-webkit-scrollbar-track  { background: transparent; }
+#text-box::-webkit-scrollbar-thumb  { background: rgba(255,45,123,0.3); border-radius: 2px; }
+
+/* ── Speaker tag ───────────────────────────────────── */
+
+.speaker-line {
+  margin-bottom: 0.5rem;
+  min-height: 1.2rem;
+}
+
+.speaker {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.38rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  display: inline-block;
+  padding: 3px 9px;
+  border: 1px solid;
+  line-height: 1.8;
+}
+
+.speaker.entity   { color: var(--pink);  border-color: rgba(255,45,123,0.35);  }
+.speaker.player   { color: var(--cyan);  border-color: rgba(0,240,255,0.35);   }
+.speaker.narrator { color: #ffab00;      border-color: rgba(255,171,0,0.35);   }
+.speaker.handler  { color: #8899aa;      border-color: rgba(136,153,170,0.3);  }
+
+/* ── Prose text ────────────────────────────────────── */
+
+#prose-text {
+  font-family: 'Special Elite', serif;
+  font-size: clamp(0.95rem, 2.1vw, 1.22rem);
+  color: var(--text);
+  line-height: 1.85;
+}
+
+#prose-text p {
+  margin-bottom: 0.85em;
+}
+
+#prose-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* Inline emphasis */
+#prose-text em     { color: var(--pink);  font-style: italic; }
+#prose-text strong { color: var(--cyan);  font-weight: normal; letter-spacing: 0.04em; }
+
+/* Named text classes */
+.whisper  { color: #4a5060; font-style: italic; font-size: 0.9em; }
+.clue-text {
+  color: var(--gold);
+  border-left: 2px solid var(--gold);
+  padding-left: 10px;
+  display: block;
+  margin: 0.5em 0;
+}
+.warn   { color: var(--red); }
+.flesh  { color: #ffb8a0; }
+.sacred { color: #9a4dff; }
+
+/* ── Choices ───────────────────────────────────────── */
+
+.choices {
+  margin-top: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.choice {
+  font-family: 'Special Elite', serif;
+  font-size: clamp(0.9rem, 1.7vw, 1.12rem);
+  color: var(--green);
+  background: rgba(57,255,20,0.03);
+  border: 1px solid rgba(57,255,20,0.15);
+  padding: 0.58rem 1.1rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.18s, border-color 0.18s, padding-left 0.18s, color 0.18s;
+  border-radius: 2px;
+  line-height: 1.45;
+  letter-spacing: 0.01em;
+}
+
+.choice:hover {
+  background: rgba(57,255,20,0.1);
+  border-color: var(--green);
+  padding-left: 1.5rem;
+  color: #fff;
+}
+
+.choice.temptation {
+  color: var(--pink);
+  border-color: rgba(255,45,123,0.2);
+}
+.choice.temptation:hover {
+  background: rgba(255,45,123,0.08);
+  border-color: var(--pink);
+  padding-left: 1.5rem;
+}
+
+.choice.danger {
+  color: var(--red);
+  border-color: rgba(255,23,68,0.2);
+}
+.choice.danger:hover {
+  background: rgba(255,23,68,0.08);
+  border-color: var(--red);
+  padding-left: 1.5rem;
+}
+
+.choice.locked {
+  color: #252530;
+  border-color: #1a1a22;
+  cursor: default;
+  pointer-events: none;
+  font-style: italic;
+}
+
+/* ── Advance hint ──────────────────────────────────── */
+
+.advance-hint {
+  display: none;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.28rem;
+  color: rgba(204,204,221,0.28);
+  text-align: right;
+  margin-top: 1rem;
+  letter-spacing: 0.12em;
+  animation: blink 1.6s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 0.25; }
+  50%       { opacity: 0.75; }
+}
+
+/* ── Main Menu ─────────────────────────────────────── */
+
+#main-menu {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 60%, rgba(255,45,123,0.08) 0%, transparent 65%),
+    linear-gradient(160deg, #04040a 0%, #0c0018 50%, #04040a 100%);
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  gap: 3.5rem;
+}
+
+#main-menu.active {
+  display: flex;
+}
+
+.menu-title {
+  text-align: center;
+}
+
+.menu-logo {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(1.1rem, 4.5vw, 2.4rem);
+  color: var(--pink);
+  text-shadow:
+    0 0 18px rgba(255,45,123,0.9),
+    0 0 55px rgba(255,45,123,0.35),
+    0 0 110px rgba(255,45,123,0.15);
+  letter-spacing: 0.18em;
+  margin-bottom: 0.6rem;
+}
+
+.menu-subtitle {
+  font-family: 'Special Elite', serif;
+  font-size: clamp(0.65rem, 1.8vw, 0.95rem);
+  color: rgba(204,204,221,0.42);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.menu-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  width: 100%;
+  max-width: 330px;
+}
+
+.menu-btn {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.42rem;
+  color: var(--green);
+  background: transparent;
+  border: 1px solid rgba(57,255,20,0.28);
+  padding: 0.85rem 1.5rem;
+  cursor: pointer;
+  text-align: center;
+  letter-spacing: 0.1em;
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+.menu-btn:hover {
+  background: rgba(57,255,20,0.09);
+  border-color: var(--green);
+  box-shadow: 0 0 18px rgba(57,255,20,0.18);
+}
+
+.menu-btn.secondary {
+  color: var(--text-dim);
+  border-color: rgba(204,204,221,0.12);
+  font-size: 0.33rem;
+}
+.menu-btn.secondary:hover {
+  background: rgba(204,204,221,0.05);
+  border-color: rgba(204,204,221,0.35);
+  box-shadow: none;
+  color: var(--text);
+}
+
+.menu-credits {
+  text-align: center;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.28rem;
+  color: rgba(204,204,221,0.18);
+  line-height: 2.2;
+  letter-spacing: 0.08em;
+}
+
+.menu-credits .warning {
+  color: rgba(255,23,68,0.5);
+  font-size: 0.24rem;
+}
+
+/* ── CRT scanlines ─────────────────────────────────── */
+
+#game::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.025) 2px,
+    rgba(0,0,0,0.025) 4px
+  );
+  pointer-events: none;
+  z-index: 200;
+}
+
+/* ── Responsive ────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  #text-box {
+    padding: 1.2rem 1.4rem 1.8rem;
+    min-height: 44vh;
+    max-height: 62vh;
+  }
+
+  #stats { gap: 0.9rem; }
+
+  .stat-bar-wrap { width: 38px; }
+
+  .choice {
+    padding: 0.7rem 0.9rem;
+    min-height: 44px;
+  }
+
+  .menu-logo { letter-spacing: 0.08em; }
+}
