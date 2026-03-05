@@ -219,8 +219,10 @@ class UIRenderer {
       .replace(/\[whisper\](.*?)\[\/whisper\]/gs, '<span class="whisper">$1</span>')
       .replace(/\[clue\](.*?)\[\/clue\]/gs,       '<span class="clue-text">$1</span>')
       .replace(/\[warn\](.*?)\[\/warn\]/gs,        '<span class="warn">$1</span>')
-      .replace(/\[flesh\](.*?)\[\/flesh\]/gs,      '<span class="flesh">$1</span>')
-      .replace(/\[sacred\](.*?)\[\/sacred\]/gs,    '<span class="sacred">$1</span>')
+      .replace(/\[flesh\](.*?)\[\/flesh\]/gs,              '<span class="flesh">$1</span>')
+      .replace(/\[sacred\](.*?)\[\/sacred\]/gs,            '<span class="sacred">$1</span>')
+      .replace(/\[recording\](.*?)\[\/recording\]/gs,      '<span class="recording">$1</span>')
+      .replace(/\[notebook-inline\](.*?)\[\/notebook-inline\]/gs, '<span class="notebook-inline">$1</span>')
       // Paragraphs from blank lines
       .replace(/\n{2,}/g, '</p><p>')
       .replace(/^/, '<p>')

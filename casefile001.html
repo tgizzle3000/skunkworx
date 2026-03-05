@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#080005">
+  <title>CASE FILE 001 ◈ DOPAMINE CATHEDRAL</title>
+  <link rel="stylesheet" href="cf001-style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Press+Start+2P&family=Courier+Prime:ital@0;1&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div id="game">
+
+    <!-- Full-screen background art -->
+    <div id="bg-layer"></div>
+
+    <!-- Character art -->
+    <img id="char-layer" src="" alt="" aria-hidden="true">
+
+    <!-- Transition overlays -->
+    <div id="glitch-overlay" aria-hidden="true"></div>
+    <div id="flash-overlay"  aria-hidden="true"></div>
+
+    <!-- ── Stats HUD ── -->
+    <div id="stats" aria-label="Player stats">
+
+      <span class="stat" title="Memory Integrity">
+        <span class="stat-label">MEMORY</span>
+        <span class="stat-bar-wrap">
+          <span class="stat-bar" id="lucidity-bar" style="width:100%"></span>
+        </span>
+        <span class="stat-value" id="lucidity-value">100</span>
+      </span>
+
+      <span class="stat" title="Signal Contamination">
+        <span class="stat-label">SIGNAL</span>
+        <span class="stat-bar-wrap">
+          <span class="stat-bar arousal" id="arousal-bar" style="width:0%"></span>
+        </span>
+        <span class="stat-value" id="arousal-value">0</span>
+      </span>
+
+      <span class="stat" title="Devotion">
+        <span class="stat-label">♡</span>
+        <span class="stat-value" id="devotion-value">0</span>
+      </span>
+
+      <span class="stat" title="Clues found">
+        <span class="stat-label">CLUES</span>
+        <span class="stat-value" id="clues-value">0</span>
+      </span>
+
+      <button id="notebook-toggle" title="Open notebook" aria-label="Open field notebook">
+        ◈ NOTEBOOK
+      </button>
+
+    </div>
+
+    <!-- ── Notebook Overlay ── -->
+    <div id="notebook-overlay" aria-hidden="true" role="dialog" aria-label="Field notebook">
+      <div id="notebook-inner">
+        <div class="nb-header">
+          <span class="nb-stamp">CASE FILE 001</span>
+          <span class="nb-title">FIELD NOTES — RESTRICTED</span>
+          <button id="notebook-close" aria-label="Close notebook">✕</button>
+        </div>
+        <div id="notebook-content">
+          <p class="nb-empty">[ No entries yet. ]</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Text Box ── -->
+    <div id="text-box" role="main" aria-live="polite">
+
+      <div class="speaker-line">
+        <span class="speaker narrator" id="speaker-tag"></span>
+      </div>
+
+      <div id="prose-text"></div>
+
+      <div class="choices" id="choices-container" role="group" aria-label="Choices"></div>
+
+      <div class="advance-hint" id="advance-hint" aria-hidden="true">▼ click to continue</div>
+
+    </div>
+
+    <!-- ── Main Menu ── -->
+    <div id="main-menu" class="active" role="dialog" aria-label="Main menu">
+
+      <div class="menu-title">
+        <div class="menu-eyebrow">DOPAMINE CATHEDRAL</div>
+        <div class="menu-case-label">CASE FILE</div>
+        <h1 class="menu-logo">001</h1>
+        <p class="menu-subtitle">Episode I — Bellephine</p>
+      </div>
+
+      <nav class="menu-options" aria-label="Menu options">
+        <button class="menu-btn" id="btn-start">◈ BEGIN INVESTIGATION</button>
+        <button class="menu-btn" id="btn-continue" style="display:none">◈ RESUME CASE</button>
+        <button class="menu-btn secondary" id="btn-new">◈ NEW CASE</button>
+      </nav>
+
+      <div class="menu-credits">
+        <p>$LUTZ4S@TAN // BIONETIKA</p>
+        <p>FERAL FREQUENCY // 2026</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Engine first, then cold-open passages, then existing arc -->
+  <script src="vn-engine.js"></script>
+  <script src="cf001-passages.js"></script>
+  <script src="vn-passages-ep01.js"></script>
+
+  <!-- Notebook toggle wiring (needs to run after DOM is ready) -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const overlay = document.getElementById('notebook-overlay');
+      const toggle  = document.getElementById('notebook-toggle');
+      const close   = document.getElementById('notebook-close');
+
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        overlay.classList.toggle('open');
+      });
+      close.addEventListener('click', () => overlay.classList.remove('open'));
+
+      // Close on outside click
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) overlay.classList.remove('open');
+      });
+    });
+
+    // Called by passage logic to add notebook entries
+    window.addNotebookEntry = function(timestamp, recorded, actual) {
+      const content = document.getElementById('notebook-content');
+      const empty   = content.querySelector('.nb-empty');
+      if (empty) empty.remove();
+
+      const entry = document.createElement('div');
+      entry.className = 'nb-entry';
+
+      const ts = document.createElement('div');
+      ts.className = 'nb-timestamp';
+      ts.textContent = timestamp;
+      entry.appendChild(ts);
+
+      const rec = document.createElement('div');
+      rec.className = 'nb-recorded';
+      rec.textContent = recorded;
+      entry.appendChild(rec);
+
+      if (actual && actual !== recorded) {
+        const div = document.createElement('div');
+        div.className = 'nb-divergence';
+        div.innerHTML = '<span class="nb-div-label">[ACTUAL]</span> ' + actual;
+        entry.appendChild(div);
+      }
+
+      content.appendChild(entry);
+    };
+  </script>
+
+</body>
+</html>
