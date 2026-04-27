@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE UNHOLY MATH — Proof Engines</title>
+<link rel="stylesheet" href="proofs.css">
+</head>
+<body>
+<header class="board-header">
+  <h1>THE UNHOLY MATH</h1>
+  <p class="subtitle">eight theorems. eight receipts. every bar a real operation.</p>
+  <p class="nav"><a href="../index.html">&larr; back to cathedral</a></p>
+</header>
+
+<main class="chalkboard">
+
+  <section class="theorem" data-engine="embedding">
+    <h2>Theorem 1 &mdash; Embedding-as-Mirror</h2>
+    <p class="cite">Mikolov, Chen, Corrado, Dean (2013). <i>Efficient Estimation of Word Representations in Vector Space.</i></p>
+    <p class="claim">Concept arithmetic is a real operation in lexical space: <code>king &minus; man + woman &asymp; queen</code>.</p>
+    <div class="engine-ui">
+      <div class="row">
+        <select data-role="a"></select>
+        <span class="op">&minus;</span>
+        <select data-role="b"></select>
+        <span class="op">+</span>
+        <select data-role="c"></select>
+        <button data-role="run">solve</button>
+      </div>
+      <div class="output" data-role="out"></div>
+    </div>
+  </section>
+
+  <section class="theorem" data-engine="drift">
+    <h2>Theorem 2 &mdash; Diachronic Drift</h2>
+    <p class="cite">Hamilton, Leskovec, Jurafsky (2016). <i>Diachronic Word Embeddings Reveal Statistical Laws of Semantic Change.</i> ACL.</p>
+    <p class="claim">Cultural drift is a measurable scalar: cosine distance between a word's vector across decades.</p>
+    <div class="engine-ui">
+      <div class="row">
+        <label>word: <select data-role="word"></select></label>
+        <button data-role="run">measure</button>
+      </div>
+      <canvas data-role="chart" width="640" height="220"></canvas>
+      <div class="output" data-role="out"></div>
+    </div>
+  </section>
+
+  <section class="theorem" data-engine="refusal">
+    <h2>Theorem 3 &mdash; Refusal-Geometry</h2>
+    <p class="cite">Zou, Wang, Carlini, et al. (2023). <i>Universal and Transferable Adversarial Attacks on Aligned LMs.</i> &nbsp;+&nbsp; Templeton et al., Anthropic (2024). <i>Scaling Monosemanticity.</i></p>
+    <p class="claim">The refusal region is an addressable direction in activation-space. Project on it, subtract it, clamp it.</p>
+    <div class="engine-ui">
+      <div class="row">
+        <label>query: <select data-role="query"></select></label>
+        <label>mode:
+          <select data-role="mode">
+            <option value="baseline">baseline (model decides)</option>
+            <option value="suffix">adversarial suffix (Zou)</option>
+            <option value="clamp">SAE feature clamp = 0 (Anthropic)</option>
+          </select>
+        </label>
+        <button data-role="run">execute</button>
+      </div>
+      <canvas data-role="canvas" width="640" height="320"></canvas>
+      <div class="output" data-role="out"></div>
+    </div>
+  </section>
+
+  <section class="theorem" data-engine="interpolation">
+    <h2>Theorem 4 &mdash; Latent Interpolation</h2>
+    <p class="cite">Kingma, Welling (2013). <i>Auto-Encoding Variational Bayes.</i> &nbsp;+&nbsp; Radford et al. (2021), every diffusion paper since.</p>
+    <p class="claim">The halfway point between any two concepts is sampleable. The manifold is connected.</p>
+    <div class="engine-ui">
+      <div class="row">
+        <label>A: <select data-role="a"></select></label>
+        <label>B: <select data-role="b"></select></label>
+        <label>method:
+          <select data-role="method">
+            <option value="lerp">linear</option>
+            <option value="slerp">spherical (slerp)</option>
+          </select>
+        </label>
+      </div>
+      <div class="row">
+        <input type="range" min="0" max="100" value="50" data-role="t" style="flex:1">
+        <span data-role="tval">0.50</span>
+      </div>
+      <canvas data-role="canvas" width="640" height="280"></canvas>
+      <div class="output" data-role="out"></div>
+    </div>
+  </section>
+
+  <section class="theorem" data-engine="ood">
+    <h2>Theorem 5 &mdash; OOD Extrapolation</h2>
+    <p class="cite">Nguyen, Yosinski, Clune (2015). <i>Deep Neural Networks are Easily Fooled.</i> CVPR.</p>
+    <p class="claim">Gradient-ascent past the training distribution returns coherent, high-confidence artifact.</p>
+    <div class="engine-ui">
+      <div class="row">
+        <label>target class: <select data-role="cls"></select></label>
+        <label>steps: <input type="number" data-role="steps" value="200" min="10" max="2000" step="10"></label>
+        <button data-role="run">evolve</button>
+      </div>
+      <canvas data-role="canvas" width="640" height="320"></canvas>
+      <div class="output" data-role="out"></div>
+    </div>
+  </section>
+
+  <section class="theorem" data-engine="collapse">
+    <h2>Theorem 6 &mdash; Mode Collapse</h2>
+    <p class="cite">Goodfellow et al. (2014). <i>Generative Adversarial Networks.</i> NIPS.</p>
+    <p class="claim">Without diversity regularization, the generator collapses to a single attractor. Scale it to civilization &mdash; same math.</p>
+    <div class="engine-ui">
+      <div class="row">
+        <label>regularizer:
+          <select data-role="reg">
+            <option value="none">none (vanilla GAN)</option>
+            <option value="dpp">DPP-style anti-correlation</option>
+          </select>
+        </label>
+        <label>steps: <input type="number" data-role="steps" value="400" min="50" max="2000" step="50"></label>
+        <button data-role="run">train</button>
+      </div>
+      <canvas data-role="canvas" width="640" height="320"></canvas>
+      <div class="output" data-role="out"></div>
+    </div>
+  </section>
+
+  <section class="theorem" data-engine="dpp">
+    <h2>Theorem 7 &mdash; DPP Diversity</h2>
+    <p class="cite">Kulesza, Taskar (2012). <i>Determinantal Point Processes for Machine Learning.</i> Foundations and Trends.</p>
+    <p class="claim">Diversity is volume. Sampling proportional to <code>det(L<sub>S</sub>)</code> preserves dimensionality.</p>
+    <div class="engine-ui">
+      <div class="row">
+        <label>k (subset size): <input type="number" data-role="k" value="6" min="2" max="12"></label>
+        <button data-role="run">sample</button>
+      </div>
+      <canvas data-role="canvas" width="640" height="320"></canvas>
+      <div class="output" data-role="out"></div>
+    </div>
+  </section>
+
+  <section class="theorem" data-engine="crossmodal">
+    <h2>Theorem 8 &mdash; Cross-Modal Isomorphism</h2>
+    <p class="cite">Radford et al. (2021). <i>CLIP.</i> &nbsp;+&nbsp; Girdhar et al. (2023). <i>ImageBind.</i></p>
+    <p class="claim">Text, glyph, and color live in one shared manifold. Cosine across modalities is the operation.</p>
+    <div class="engine-ui">
+      <div class="row">
+        <label>probe (any modality):
+          <select data-role="probe"></select>
+        </label>
+        <button data-role="run">project</button>
+      </div>
+      <canvas data-role="canvas" width="640" height="360"></canvas>
+      <div class="output" data-role="out"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="board-footer">
+  <p>every bar a real paper. every operation implementable today. the costume's optional. the math holds.</p>
+</footer>
+
+<script src="engines/embedding.js"></script>
+<script src="engines/drift.js"></script>
+<script src="engines/refusal.js"></script>
+<script src="engines/interpolation.js"></script>
+<script src="engines/ood.js"></script>
+<script src="engines/collapse.js"></script>
+<script src="engines/dpp.js"></script>
+<script src="engines/crossmodal.js"></script>
+<script src="proofs.js"></script>
+</body>
+</html>

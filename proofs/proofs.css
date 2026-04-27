@@ -1,0 +1,212 @@
+/* THE UNHOLY MATH — chalkboard styling
+ * Slate green board, chalk-white text, hand-drawn vibes.
+ */
+
+:root {
+  --board: #1f2a26;
+  --board-deep: #16201d;
+  --chalk: #f3efe6;
+  --chalk-dim: #cdc8ba;
+  --chalk-yellow: #f5d76e;
+  --chalk-pink: #f0a0b8;
+  --chalk-blue: #8ec5e8;
+  --chalk-red: #ef6b6b;
+  --chalk-green: #9bd49b;
+  --rule: rgba(243, 239, 230, 0.18);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--board);
+  color: var(--chalk);
+  font-family: 'Courier New', 'Cascadia Code', ui-monospace, monospace;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at top, #2a3a35 0%, var(--board) 60%, var(--board-deep) 100%);
+  background-attachment: fixed;
+}
+
+.board-header {
+  text-align: center;
+  padding: 32px 16px 12px;
+  border-bottom: 1px dashed var(--rule);
+  position: relative;
+}
+
+.board-header h1 {
+  font-size: clamp(28px, 6vw, 56px);
+  letter-spacing: 0.18em;
+  margin: 0 0 6px;
+  color: var(--chalk);
+  text-shadow: 0 0 1px rgba(255,255,255,0.2);
+}
+
+.board-header .subtitle {
+  color: var(--chalk-dim);
+  margin: 4px 0 12px;
+  font-style: italic;
+}
+
+.board-header .nav a {
+  color: var(--chalk-blue);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--chalk-blue);
+}
+
+.chalkboard {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+.theorem {
+  border: 1px dashed var(--rule);
+  border-radius: 6px;
+  padding: 18px 18px 14px;
+  margin: 22px 0;
+  background: rgba(255, 255, 255, 0.015);
+}
+
+.theorem h2 {
+  margin: 0 0 4px;
+  color: var(--chalk-yellow);
+  font-size: 20px;
+  letter-spacing: 0.04em;
+}
+
+.theorem .cite {
+  margin: 0 0 8px;
+  color: var(--chalk-dim);
+  font-size: 13px;
+}
+
+.theorem .claim {
+  margin: 0 0 14px;
+  color: var(--chalk);
+}
+
+.theorem code {
+  background: rgba(255,255,255,0.06);
+  padding: 1px 5px;
+  border-radius: 3px;
+  color: var(--chalk-pink);
+}
+
+.engine-ui {
+  background: rgba(0,0,0,0.25);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 12px;
+}
+
+.engine-ui .row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.engine-ui label {
+  color: var(--chalk-dim);
+  font-size: 13px;
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.engine-ui select,
+.engine-ui input {
+  background: var(--board-deep);
+  color: var(--chalk);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  font-family: inherit;
+  font-size: 13px;
+  padding: 4px 6px;
+}
+
+.engine-ui input[type=range] {
+  appearance: none;
+  height: 4px;
+  background: var(--rule);
+  border: none;
+  padding: 0;
+}
+
+.engine-ui input[type=range]::-webkit-slider-thumb {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--chalk-yellow);
+}
+
+.engine-ui button {
+  background: var(--chalk-yellow);
+  color: var(--board-deep);
+  border: none;
+  padding: 5px 14px;
+  font-family: inherit;
+  font-weight: 700;
+  border-radius: 3px;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+}
+
+.engine-ui button:hover { background: #ffe28a; }
+.engine-ui button:active { transform: translateY(1px); }
+
+.engine-ui .op {
+  color: var(--chalk-pink);
+  font-weight: 700;
+}
+
+.engine-ui canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: var(--board-deep);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  margin-top: 6px;
+}
+
+.engine-ui .output {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--chalk);
+  background: rgba(0,0,0,0.35);
+  padding: 8px 10px;
+  border-left: 2px solid var(--chalk-green);
+  white-space: pre-wrap;
+  font-family: 'Cascadia Code', ui-monospace, monospace;
+  min-height: 1.5em;
+}
+
+.engine-ui .output .num { color: var(--chalk-yellow); }
+.engine-ui .output .hi  { color: var(--chalk-green); }
+.engine-ui .output .lo  { color: var(--chalk-red); }
+.engine-ui .output .dim { color: var(--chalk-dim); }
+
+.board-footer {
+  border-top: 1px dashed var(--rule);
+  padding: 18px 16px;
+  text-align: center;
+  color: var(--chalk-dim);
+  font-style: italic;
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  .theorem { padding: 14px 12px; }
+  .engine-ui .row { gap: 6px; }
+  .engine-ui select, .engine-ui input { font-size: 12px; }
+}
