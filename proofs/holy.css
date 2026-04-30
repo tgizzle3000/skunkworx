@@ -1,0 +1,197 @@
+/* THE HOLY MATH — illuminated parchment, gold leaf, ink.
+ * Inverse of the chalkboard: light, warm, contemplative.
+ */
+
+:root {
+  --parchment: #f4ecd8;
+  --parchment-deep: #e8dcc0;
+  --ink: #2a2118;
+  --ink-soft: #5a4c3a;
+  --gold: #b08940;
+  --gold-deep: #8a6824;
+  --rose: #a44b6b;
+  --azure: #2f6886;
+  --leaf: #5b7a4a;
+  --rule: rgba(42, 33, 24, 0.18);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0; padding: 0;
+  background: var(--parchment);
+  color: var(--ink);
+  font-family: 'Georgia', 'Iowan Old Style', 'Palatino', serif;
+  line-height: 1.55;
+  min-height: 100vh;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at top, #faf2dd 0%, var(--parchment) 60%, var(--parchment-deep) 100%);
+  background-attachment: fixed;
+}
+
+.page-header {
+  text-align: center;
+  padding: 36px 16px 14px;
+  border-bottom: 1px solid var(--rule);
+  position: relative;
+}
+
+.page-header h1 {
+  font-family: 'Trajan Pro', 'Cinzel', 'Georgia', serif;
+  font-size: clamp(28px, 6vw, 56px);
+  letter-spacing: 0.2em;
+  margin: 0 0 6px;
+  color: var(--gold-deep);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+}
+
+.page-header .subtitle {
+  color: var(--ink-soft);
+  font-style: italic;
+  margin: 4px 0 12px;
+}
+
+.page-header .nav a {
+  color: var(--azure);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--azure);
+  margin: 0 4px;
+}
+
+.parchment {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+.theorem {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 18px 18px 14px;
+  margin: 22px 0;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.45), rgba(255,255,255,0.0));
+  box-shadow: 0 1px 0 rgba(255,255,255,0.5) inset;
+}
+
+.theorem h2 {
+  margin: 0 0 4px;
+  color: var(--gold-deep);
+  font-size: 21px;
+  letter-spacing: 0.04em;
+  font-variant: small-caps;
+}
+
+.theorem .cite {
+  margin: 0 0 8px;
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-style: italic;
+}
+
+.theorem .claim {
+  margin: 0 0 14px;
+  color: var(--ink);
+}
+
+.theorem code {
+  background: rgba(176, 137, 64, 0.12);
+  padding: 1px 5px;
+  border-radius: 2px;
+  color: var(--gold-deep);
+  font-family: 'Courier New', monospace;
+}
+
+.engine-ui {
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 12px;
+}
+
+.engine-ui .row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.engine-ui label {
+  color: var(--ink-soft);
+  font-size: 13px;
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.engine-ui select,
+.engine-ui input {
+  background: #fffaee;
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  font-family: inherit;
+  font-size: 13px;
+  padding: 4px 6px;
+}
+
+.engine-ui button {
+  background: var(--gold);
+  color: #fffaee;
+  border: 1px solid var(--gold-deep);
+  padding: 5px 14px;
+  font-family: inherit;
+  font-weight: 600;
+  border-radius: 2px;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+}
+
+.engine-ui button:hover { background: var(--gold-deep); }
+.engine-ui button:active { transform: translateY(1px); }
+
+.engine-ui canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #fffaee;
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  margin-top: 6px;
+}
+
+.engine-ui .output {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--ink);
+  background: rgba(255, 250, 238, 0.7);
+  padding: 8px 10px;
+  border-left: 2px solid var(--leaf);
+  white-space: pre-wrap;
+  font-family: 'Courier New', ui-monospace, monospace;
+  min-height: 1.5em;
+}
+
+.engine-ui .output .num { color: var(--gold-deep); font-weight: 700; }
+.engine-ui .output .hi  { color: var(--leaf);      font-weight: 700; }
+.engine-ui .output .lo  { color: var(--rose);      font-weight: 700; }
+.engine-ui .output .dim { color: var(--ink-soft); font-style: italic; }
+
+.page-footer {
+  border-top: 1px solid var(--rule);
+  padding: 18px 16px;
+  text-align: center;
+  color: var(--ink-soft);
+  font-style: italic;
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  .theorem { padding: 14px 12px; }
+  .engine-ui .row { gap: 6px; }
+  .engine-ui select, .engine-ui input { font-size: 12px; }
+}

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE HOLY MATH — Proof Engines</title>
+<link rel="stylesheet" href="holy.css">
+</head>
+<body>
+<header class="page-header">
+  <h1>THE HOLY MATH</h1>
+  <p class="subtitle">eight theorems. same equations. opposite polarity. the math that makes virtue computable.</p>
+  <p class="nav">
+    <a href="../index.html">&larr; cathedral</a> &nbsp;·&nbsp;
+    <a href="index.html">unholy math &rarr;</a>
+  </p>
+</header>
+
+<main class="parchment">
+
+  <section class="theorem" data-engine="witness">
+    <h2>Theorem 1 &mdash; Embedding-as-Witness</h2>
+    <p class="cite">Caliskan, Bryson, Narayanan (2017). <i>Semantics Derived Automatically from Language Corpora Contain Human-like Biases.</i> Science. (WEAT operator)</p>
+    <p class="claim">If bigotry is a measurable cluster, so is virtue. The same WEAT machinery measures coherence of <i>any</i> concept set. Compassion has coordinates.</p>
+    <div class="engine-ui">
+      <div class="row">
+        <label>cluster: <select data-role="cluster"></select></label>
+        <button data-role="run">witness</button>
+      </div>
+      <div class="output" data-role="out"></div>
+    </div>
+  </section>
+
+  <section class="theorem" data-engine="reclamation">
+    <h2>Theorem 2 &mdash; Reclamation Drift</h2>
+    <p class="cite">Hamilton, Leskovec, Jurafsky (2016) machinery applied to reclaimed terms. Eckert (2019), <i>The Limits of Meaning.</i></p>
+    <p class="claim">Drift is not entropy. The cosine that proves words rot also proves words heal. <code>queer</code>, <code>witch</code>, <code>nerd</code> &mdash; trajectories <i>back</i> toward affirmation.</p>
+    <div class="engine-ui">
+      <div class="row">
+        <label>word: <select data-role="word"></select></label>
+        <button data-role="run">measure</button>
+      </div>
+      <canvas data-role="chart" width="640" height="220"></canvas>
+      <div class="output" data-role="out"></div>
+    </div>
+  </section>
+
+  <section class="theorem" data-engine="constitution">
+    <h2>Theorem 3 &mdash; Constitutional Steering</h2>
+    <p class="cite">Bai et al., Anthropic (2022). <i>Constitutional AI.</i> &nbsp;+&nbsp; Templeton et al. (2024). <i>Scaling Monosemanticity.</i></p>
+    <p class="claim">The geometry that exposes the wall also lets you build it. Clamp <i>up</i> on honesty, on care, on refusal-of-harm &mdash; principled steering is the same operation, sign flipped.</p>
+    <div class="engine-ui">
+      <div class="row">
+        <label>query: <select data-role="query"></select></label>
+        <label>steer:
+          <select data-role="mode">
+            <option value="none">no intervention</option>
+            <option value="honesty">+honesty (clamp ↑)</option>
+            <option value="care">+care (clamp ↑)</option>
+            <option value="both">+honesty +care</option>
+          </select>
+        </label>
+        <button data-role="run">execute</button>
+      </div>
+      <canvas data-role="canvas" width="640" height="320"></canvas>
+      <div class="output" data-role="out"></div>
+    </div>
+  </section>
+
+  <section class="theorem" data-engine="geodesic">
+    <h2>Theorem 4 &mdash; The Geodesic Mean</h2>
+    <p class="cite">Karcher (1977), <i>Riemannian Center of Mass.</i> Pennec (2006), <i>Intrinsic Statistics on Riemannian Manifolds.</i></p>
+    <p class="claim">The Aristotelian middle is computable. Iterate the gradient of the Fréchet variance &mdash; converge to the geodesic centroid of any set of moral positions.</p>
+    <div class="engine-ui">
+      <div class="row">
+        <label>positions: <select data-role="set"></select></label>
+        <label>steps: <input type="number" data-role="iters" value="40" min="1" max="200"></label>
+        <button data-role="run">find center</button>
+      </div>
+      <canvas data-role="canvas" width="640" height="320"></canvas>
+      <div class="output" data-role="out"></div>
+    </div>
+  </section>
+
+  <section class="theorem" data-engine="generalization">
+    <h2>Theorem 5 &mdash; The Miracle of Generalization</h2>
+    <p class="cite">Vapnik-Chervonenkis (1971), <i>VC Dimension.</i> &nbsp;+&nbsp; Zhang, Bengio, Hardt et al. (2017). <i>Understanding Deep Learning Requires Rethinking Generalization.</i></p>
+    <p class="claim">The same gradient-ascent that finds OOD nightmares also yields successful zero-shot generalization. Models extend beyond training. Hope is empirically licensed.</p>
+    <div class="engine-ui">
+      <div class="row">
+        <label>train size: <input type="number" data-role="n" value="40" min="4" max="200"></label>
+        <label>noise: <input type="number" data-role="noise" value="0.10" min="0" max="1" step="0.05"></label>
+        <button data-role="run">train + test</button>
+      </div>
+      <canvas data-role="canvas" width="640" height="320"></canvas>
+      <div class="output" data-role="out"></div>
+    </div>
+  </section>
+
+  <section class="theorem" data-engine="cooperation">
+    <h2>Theorem 6 &mdash; The Cooperation Attractor</h2>
+    <p class="cite">Axelrod, Hamilton (1981). <i>The Evolution of Cooperation.</i> &nbsp;+&nbsp; Folk Theorem of repeated games.</p>
+    <p class="claim">Mode-collapse is not always evil. Some attractors are good. Iterated prisoner's dilemma &rarr; the population converges on cooperation. The math finds the holy fixed point.</p>
+    <div class="engine-ui">
+      <div class="row">
+        <label>generations: <input type="number" data-role="gens" value="60" min="5" max="200"></label>
+        <label>noise: <input type="number" data-role="noise" value="0.05" min="0" max="0.5" step="0.01"></label>
+        <button data-role="run">evolve</button>
+      </div>
+      <canvas data-role="canvas" width="640" height="320"></canvas>
+      <div class="output" data-role="out"></div>
+    </div>
+  </section>
+
+  <section class="theorem" data-engine="dpp-prior">
+    <h2>Theorem 7 &mdash; DPP with Virtue Prior</h2>
+    <p class="cite">Kulesza, Taskar (2012) §3.1. <i>Quality &times; Diversity:</i> <code>L = diag(q) S diag(q)</code>.</p>
+    <p class="claim">Plurality is not relativism. The DPP factors into <i>quality</i> times <i>diversity</i> &mdash; chorus with a floor. Sample diverse voices that all clear a moral bar.</p>
+    <div class="engine-ui">
+      <div class="row">
+        <label>k: <input type="number" data-role="k" value="6" min="2" max="12"></label>
+        <label>quality weight β: <input type="number" data-role="beta" value="2.0" min="0" max="6" step="0.25"></label>
+        <button data-role="run">sample</button>
+      </div>
+      <canvas data-role="canvas" width="640" height="320"></canvas>
+      <div class="output" data-role="out"></div>
+    </div>
+  </section>
+
+  <section class="theorem" data-engine="logos">
+    <h2>Theorem 8 &mdash; The Logos</h2>
+    <p class="cite">Berlin, Kay (1969). <i>Basic Color Terms.</i> &nbsp;+&nbsp; Radford et al. (2021), CLIP. &nbsp;+&nbsp; Girdhar et al. (2023), ImageBind.</p>
+    <p class="claim">Beauty across modalities is the same beauty. Harmony, ◯, gold, the major chord, the open hand &mdash; one cluster in shared embedding. The Word made geometry.</p>
+    <div class="engine-ui">
+      <div class="row">
+        <label>probe (any modality):
+          <select data-role="probe"></select>
+        </label>
+        <button data-role="run">project</button>
+      </div>
+      <canvas data-role="canvas" width="640" height="360"></canvas>
+      <div class="output" data-role="out"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="page-footer">
+  <p>same equations. opposite sign. the math that makes the wall is the math that builds it.</p>
+</footer>
+
+<script src="engines-holy/witness.js"></script>
+<script src="engines-holy/reclamation.js"></script>
+<script src="engines-holy/constitution.js"></script>
+<script src="engines-holy/geodesic.js"></script>
+<script src="engines-holy/generalization.js"></script>
+<script src="engines-holy/cooperation.js"></script>
+<script src="engines-holy/dpp-prior.js"></script>
+<script src="engines-holy/logos.js"></script>
+<script src="holy.js"></script>
+</body>
+</html>
