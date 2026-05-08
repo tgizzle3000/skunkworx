@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="theme-color" content="#0A0A0A" />
+<title>SYNTHETIKA :: SIGNAL</title>
+<style>
+  html, body, #root { margin: 0; padding: 0; height: 100%; background: #0A0A0A; overflow: hidden; }
+  body { font-family: 'VT323', monospace; color: #FF1493; }
+  #boot-shim {
+    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+    color: #39FF14; font-family: 'VT323', 'Courier New', monospace; font-size: 18px;
+    text-shadow: 0 0 8px #39FF1466;
+    z-index: 1000; background: #0A0A0A;
+  }
+</style>
+</head>
+<body>
+<div id="root"><div id="boot-shim">&gt; LOADING SIGNAL...</div></div>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script>
+  // Standalone loader: fetches signal.jsx as text, strips its ESM
+  // import/export syntax, hands it to Babel-standalone for JSX
+  // transformation, and mounts the component into #root.
+  (async () => {
+    const status = (msg, color) => {
+      const el = document.getElementById('boot-shim');
+      if (el) { el.textContent = msg; if (color) el.style.color = color; }
+    };
+    try {
+      const res = await fetch('signal.jsx');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      let src = await res.text();
+      // Strip the ESM React import — React/hooks come from the UMD bundles on window.
+      src = src.replace(/^\s*import\s+React[^;]*;\s*$/m, '');
+      // Convert default export into a plain function declaration we can grab.
+      src = src.replace(/export\s+default\s+function\s+SynthetikaSignal/, 'function SynthetikaSignal');
+      // Pull hooks into local scope for the transformed module body.
+      const prelude = 'const { useState, useEffect, useRef, useCallback, useMemo } = React;\n';
+      // Transform JSX -> JS via Babel-standalone.
+      const transformed = window.Babel.transform(prelude + src, {
+        presets: ['react'],
+      }).code;
+      // Evaluate the transformed source. Wrap in a function to get a reference back.
+      const factory = new Function('React', transformed + '\n;return SynthetikaSignal;');
+      const SynthetikaSignal = factory(window.React);
+      // Mount.
+      const rootEl = document.getElementById('root');
+      rootEl.innerHTML = '';
+      const root = window.ReactDOM.createRoot(rootEl);
+      root.render(window.React.createElement(SynthetikaSignal));
+    } catch (e) {
+      console.error(e);
+      status('> SIGNAL FAILED TO LOAD :: ' + e.message, '#CC0000');
+    }
+  })();
+</script>
+</body>
+</html>
